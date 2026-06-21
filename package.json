@@ -1,6 +1,6 @@
 {
   "name": "@vibexp/design-system",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Unified design system across all shaharia-lab services — shadcn/ui default theme, neutral base, OKLCH tokens, full light/dark parity, plus React brand components.",
   "license": "MIT",
   "repository": {
