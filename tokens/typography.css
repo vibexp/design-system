@@ -1,0 +1,89 @@
+/* =============================================================================
+ * @vibexp/design-system — typography scale & roles (source of truth)
+ *
+ * The type layer the system was missing. tokens/fonts.css owns the typeface
+ * STACKS (--font-inter / --font-system / --font-mono / --font-poppins); this
+ * file owns SIZE, LINE-HEIGHT, WEIGHT and TRACKING — plus the semantic ROLES
+ * that compose them.
+ *
+ * Foundation: the Tailwind v4 / shadcn default type scale, formalised as
+ * tokens so product, website, blog and docs share one ramp instead of ad-hoc
+ * `text-*` choices. Sizes are rem (respect the user's root font-size); each
+ * size ships a paired line-height (`--text-…-lh`).
+ *
+ * ── ROLES ARE THE PUBLIC API ────────────────────────────────────────────
+ * The `.type-*` classes are the canonical role vocabulary every service shares
+ * (replacing the duplicated `typography.tsx` in website/blog and the ad-hoc
+ * `text-[…]` in frontend). They are SURFACE-AGNOSTIC: each sets size /
+ * line-height / weight / tracking only and lets `font-family` inherit — so the
+ * same `.type-title` renders in Inter on the website and system-sans in the
+ * app. Exceptions, by design: `.type-lead` / `.type-caption` also set the
+ * muted colour, and `.type-code` pins `--font-mono`.
+ *
+ * The display tier (display/title/section/stat) and `.type-lead` are FLUID:
+ * a single class replaces the hand-written `text-4xl md:text-5xl lg:text-6xl`
+ * chains. clamp() is rem-based (scales with the user's root size → a11y win).
+ *
+ * Reference roles, never literals. Theme-independent except the two muted
+ * roles noted above.
+ * ============================================================================= */
+
+:root {
+  /* ── size ramp ─ size + paired line-height ──────────────────────────────
+     xs–xl carry generous UI leading; display sizes (5xl+) tighten so big
+     headlines don't gap. */
+  --text-xs:   0.75rem;   --text-xs-lh:   1rem;      /* 12 / 16  · overlines, dense meta */
+  --text-sm:   0.875rem;  --text-sm-lh:   1.25rem;   /* 14 / 20  · labels, captions, secondary body */
+  --text-base: 1rem;      --text-base-lh: 1.5rem;    /* 16 / 24  · default body */
+  --text-lg:   1.125rem;  --text-lg-lh:   1.75rem;   /* 18 / 28  · lead paragraph */
+  --text-xl:   1.25rem;   --text-xl-lh:   1.75rem;   /* 20 / 28  · card title */
+  --text-2xl:  1.5rem;    --text-2xl-lh:  2rem;      /* 24 / 32  · panel heading */
+  --text-3xl:  1.875rem;  --text-3xl-lh:  2.25rem;   /* 30 / 36 */
+  --text-4xl:  2.25rem;   --text-4xl-lh:  2.5rem;    /* 36 / 40  · page title floor */
+  --text-5xl:  3rem;      --text-5xl-lh:  1.08;      /* 48 */
+  --text-6xl:  3.75rem;   --text-6xl-lh:  1.05;      /* 60       · hero display ceiling */
+  --text-7xl:  4.5rem;    --text-7xl-lh:  1;         /* 72 */
+
+  /* ── fluid display sizes ─ rem-based clamp(min, fluid, max) ─────────────
+     One token replaces a responsive utility chain. Ranges (≈390→1280px vp):
+       display 36→60 · title 36→48 · section 30→48 · stat 30→36 · lead 18→20 */
+  --text-fluid-display: clamp(2.25rem, 1.6rem + 2.7vw, 3.75rem);
+  --text-fluid-title:   clamp(2.25rem, 1.92rem + 1.35vw, 3rem);
+  --text-fluid-section: clamp(1.875rem, 1.38rem + 2.02vw, 3rem);
+  --text-fluid-stat:    clamp(1.875rem, 1.71rem + 0.67vw, 2.25rem);
+  --text-fluid-lead:    clamp(1.125rem, 1.07rem + 0.22vw, 1.25rem);
+
+  /* ── weight ─ Inter ships 400–800; system-sans & mono cover these ───────── */
+  --font-weight-normal:   400;
+  --font-weight-medium:   500;
+  --font-weight-semibold: 600;
+  --font-weight-bold:     700;
+
+  /* ── tracking ─ tighten large display, open up small caps ───────────────── */
+  --tracking-tighter: -0.03em;  /* hero display */
+  --tracking-tight:   -0.018em; /* titles, sections, headings */
+  --tracking-normal:  0em;      /* body & UI */
+  --tracking-wide:    0.02em;
+  --tracking-wider:   0.06em;   /* uppercase overlines */
+}
+
+/* ── semantic roles ───────────────────────────────────────────────────────
+   The canonical vocabulary. Apply the class; font-family is inherited (Inter
+   on web, system in app) unless noted. Display tier + lead are fluid. */
+
+/* display tier — fluid, bold, tight */
+.type-display    { font-size: var(--text-fluid-display); line-height: 1.05; font-weight: var(--font-weight-bold); letter-spacing: var(--tracking-tighter); }
+.type-title      { font-size: var(--text-fluid-title);   line-height: 1.1;  font-weight: var(--font-weight-bold); letter-spacing: var(--tracking-tight); }
+.type-section    { font-size: var(--text-fluid-section); line-height: 1.1;  font-weight: var(--font-weight-bold); letter-spacing: var(--tracking-tight); }
+.type-heading    { font-size: var(--text-2xl); line-height: var(--text-2xl-lh); font-weight: var(--font-weight-bold);     letter-spacing: var(--tracking-tight); }
+.type-card-title { font-size: var(--text-xl);  line-height: var(--text-xl-lh);  font-weight: var(--font-weight-semibold); letter-spacing: var(--tracking-tight); }
+.type-stat       { font-size: var(--text-fluid-stat); line-height: 1.1; font-weight: var(--font-weight-bold); letter-spacing: var(--tracking-tight); font-variant-numeric: tabular-nums; }
+
+/* body tier */
+.type-lead       { font-size: var(--text-fluid-lead); line-height: 1.6; font-weight: var(--font-weight-normal); color: var(--muted-foreground); }
+.type-body       { font-size: var(--text-base); line-height: 1.6; font-weight: var(--font-weight-normal); }
+.type-body-sm    { font-size: var(--text-sm);   line-height: 1.5; font-weight: var(--font-weight-normal); }
+.type-label      { font-size: var(--text-sm);   line-height: var(--text-sm-lh); font-weight: var(--font-weight-medium); letter-spacing: var(--tracking-normal); }
+.type-caption    { font-size: var(--text-sm);   line-height: 1.5; font-weight: var(--font-weight-normal); color: var(--muted-foreground); }
+.type-overline   { font-size: var(--text-xs);   line-height: var(--text-xs-lh); font-weight: var(--font-weight-semibold); letter-spacing: var(--tracking-wider); text-transform: uppercase; }
+.type-code       { font-size: var(--text-sm);   line-height: var(--text-sm-lh); font-weight: var(--font-weight-normal); font-family: var(--font-mono); }

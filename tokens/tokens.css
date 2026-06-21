@@ -1,0 +1,178 @@
+/* =============================================================================
+ * @vibexp/design-system — design tokens (source of truth)
+ *
+ * The shadcn/ui default theme on a neutral (grayscale) base, in the OKLCH
+ * colour space. The brand is deliberately monochrome — there is no accent hue.
+ *
+ * These are plain CSS custom properties: import this file anywhere (any
+ * framework, with or without Tailwind) and reference the roles, e.g.
+ * `color: var(--foreground)` / `background: var(--primary)`.
+ *
+ * Dark mode is a value-flip on the `.dark` class — add `class="dark"` to
+ * <html> (or any ancestor) and every token re-resolves. No component changes.
+ *
+ * DO NOT hard-code hex/oklch literals in product code. Reference the token.
+ * ============================================================================= */
+
+:root {
+  /* radius seed — every corner in the system derives from this one value */
+  --radius: 0.625rem;
+
+  /* radius scale, computed off the seed. Mirrored in tokens/theme.css as
+     Tailwind theme keys (rounded-sm/md/lg/xl); duplicated here as raw vars so
+     non-Tailwind consumers can reference them directly. */
+  --radius-sm: calc(var(--radius) - 4px); /* ~6px  · checkbox, tabs, chips */
+  --radius-md: calc(var(--radius) - 2px); /* ~8px  · buttons, inputs, selects */
+  --radius-lg: var(--radius);             /* 10px  · cards, alerts, popovers */
+  --radius-xl: calc(var(--radius) + 4px); /* ~14px · large containers */
+
+  /* surfaces */
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+
+  /* brand / actions (neutral black) */
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+
+  /* brand aliases — semantic handles for "brand moments". They reference the
+     neutral roles, so brand emphasis renders near-black in light and near-white
+     in dark automatically (no .dark override needed — --primary/--accent/--ring
+     already flip). The brand stays monochrome; these add no new hue. */
+  --brand: var(--primary);
+  --brand-foreground: var(--primary-foreground);
+  --brand-muted: var(--accent);
+  --brand-ring: var(--ring);
+
+  /* feedback — functional status roles. NOT brand accent (the brand stays
+     monochrome via --primary); these encode meaning the way --destructive
+     already does. Each role ships three values:
+       --x             solid fill          (badges, solid buttons)
+       --x-foreground  text/icon on solid  (WCAG-checked, ratios below)
+       --x-subtle      soft tinted panel   (alert backgrounds)
+     Usage on a -subtle panel: background = --x-subtle, body text =
+     --foreground (≈17:1), icon/border/title accent = --x. Solid fills carry
+     their own -foreground; warning is light enough to need a dark one. */
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.985 0 0);
+  --success: oklch(0.52 0.14 150); /* fg white → 4.95:1 */
+  --success-foreground: oklch(0.985 0 0);
+  --success-subtle: oklch(0.95 0.03 150);
+  --warning: oklch(0.7 0.145 75); /* fg near-black → 6.55:1 */
+  --warning-foreground: oklch(0.205 0 0);
+  --warning-subtle: oklch(0.96 0.03 80);
+  --info: oklch(0.52 0.13 245); /* fg white → 5.23:1 */
+  --info-foreground: oklch(0.985 0 0);
+  --info-subtle: oklch(0.96 0.02 245);
+
+  /* lines & focus
+     --ring is the keyboard focus indicator. It must clear WCAG 2.2 SC 1.4.11
+     (3:1 against the adjacent background). The shadcn default (0.708) is only
+     2.58:1 on white and fails — 0.45 lifts it to 7.46:1. */
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.45 0 0);
+
+  /* data-viz categorical palette */
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+
+  /* avatar / identity — a small CATEGORICAL palette (like --chart-*), the one
+     place the brand tolerates hue: distinguishing people, not decoration.
+     Used as a solid tile under light initials; foreground text = white
+     (--primary-foreground). Three evenly-spread hues at one chroma/lightness. */
+  --avatar-1: oklch(0.55 0.13 255);
+  --avatar-2: oklch(0.55 0.13 150);
+  --avatar-3: oklch(0.55 0.13 30);
+
+  /* sidebar / app navigation surface */
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.45 0 0);
+
+  /* elevation — a restrained three-step shadow ramp (the Tailwind defaults).
+     Depth signals layering, not decoration. Theme-independent (shadows do not
+     flip in dark). --shadow-md is consumed by the .skip-link in a11y.css. */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  /* spacing — 4px base unit. Raw vars for direct reference; Tailwind's own
+     spacing utilities (p-4, gap-2, …) are unaffected by these. */
+  --space-1: 0.25rem; /* 4px  */
+  --space-2: 0.5rem;  /* 8px  */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem;    /* 16px */
+  --space-6: 1.5rem;  /* 24px */
+  --space-8: 2rem;    /* 32px */
+  --space-12: 3rem;   /* 48px */
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --destructive-foreground: oklch(0.985 0 0);
+  /* status solids ride brighter on dark surfaces, so they take a dark
+     foreground (success 7.13:1 · warning 8.81:1 · info 6.28:1). */
+  --success: oklch(0.7 0.15 150);
+  --success-foreground: oklch(0.205 0 0);
+  --success-subtle: oklch(0.27 0.05 150);
+  --warning: oklch(0.78 0.15 80);
+  --warning-foreground: oklch(0.205 0 0);
+  --warning-subtle: oklch(0.27 0.05 80);
+  --info: oklch(0.68 0.16 245);
+  --info-foreground: oklch(0.205 0 0);
+  --info-subtle: oklch(0.27 0.05 245);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  /* dark focus ring: 0.556 passed (4.18:1) but sat marginal on raised cards
+     (3.78:1); 0.6 gives 5:1 on bg and 4.54:1 on card. */
+  --ring: oklch(0.6 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  /* avatars lift on dark surfaces so initials stay legible on the dark card */
+  --avatar-1: oklch(0.68 0.14 255);
+  --avatar-2: oklch(0.68 0.14 150);
+  --avatar-3: oklch(0.68 0.14 30);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.6 0 0);
+}

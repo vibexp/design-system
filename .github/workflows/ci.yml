@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  validate:
+    name: Validate package
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test
+        run: npm test
+
+      - name: Build React entry
+        run: npm run build
+
+      - name: Validate tokens.json
+        run: node -e "JSON.parse(require('fs').readFileSync('tokens.json', 'utf8')); console.log('tokens.json is valid JSON')"
+
+      - name: Check exports paths exist
+        run: |
+          node -e '
+            const fs = require("fs");
+            const pkg = require("./package.json");
+            const missing = [];
+            const check = (key, value) => {
+              if (typeof value === "object" && value !== null) {
+                for (const v of Object.values(value)) check(key, v);
+                return;
+              }
+              if (value.includes("*")) {
+                const dir = value.slice(2, value.indexOf("*"));
+                if (!fs.existsSync(dir)) missing.push(`${key} -> ${dir}`);
+              } else if (!fs.existsSync(value)) {
+                missing.push(`${key} -> ${value}`);
+              }
+            };
+            for (const [key, value] of Object.entries(pkg.exports)) check(key, value);
+            if (missing.length) {
+              console.error("Missing export targets:\n" + missing.join("\n"));
+              process.exit(1);
+            }
+            console.log("All export paths exist");
+          '
+
+      - name: Pack dry run
+        run: npm pack --dry-run

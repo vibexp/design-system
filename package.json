@@ -1,0 +1,76 @@
+{
+  "name": "@vibexp/design-system",
+  "version": "0.1.0",
+  "description": "Unified design system across all shaharia-lab services — shadcn/ui default theme, neutral base, OKLCH tokens, full light/dark parity, plus React brand components.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vibexp/design-system.git"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  },
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "main": "index.css",
+  "style": "index.css",
+  "exports": {
+    ".": "./index.css",
+    "./css": "./index.css",
+    "./tokens.css": "./tokens/tokens.css",
+    "./typography.css": "./tokens/typography.css",
+    "./theme.css": "./tokens/theme.css",
+    "./prose.css": "./tokens/prose.css",
+    "./fonts.css": "./tokens/fonts.css",
+    "./a11y.css": "./tokens/a11y.css",
+    "./tokens.json": "./tokens.json",
+    "./react": {
+      "types": "./dist/react/index.d.ts",
+      "import": "./dist/react/index.js"
+    },
+    "./brand/*": "./brand/*"
+  },
+  "files": [
+    "index.css",
+    "tokens/",
+    "tokens.json",
+    "dist/",
+    "brand/",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "@types/react": "^18.3.18",
+    "@vitejs/plugin-react": "^4.3.4",
+    "jsdom": "^25.0.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  },
+  "keywords": [
+    "design-system",
+    "design-tokens",
+    "shadcn",
+    "tailwindcss",
+    "oklch",
+    "react",
+    "vibexp"
+  ]
+}

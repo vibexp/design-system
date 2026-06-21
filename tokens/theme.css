@@ -1,0 +1,107 @@
+/* =============================================================================
+ * @vibexp/design-system — Tailwind v4 theme mapping
+ *
+ * Exposes the design tokens (tokens.css) to Tailwind as utilities, so
+ * `bg-primary`, `text-muted-foreground`, `border-border`, `rounded-lg`,
+ * `bg-chart-1`, etc. all resolve to the tokens — and flip in dark mode.
+ *
+ * ── IMPORTANT (Tailwind v4) ──────────────────────────────────────────────
+ * Tailwind only scans `@theme` blocks found in your ENTRY CSS file. If your
+ * build does not pick up utilities from this imported file, paste the
+ * `@theme inline { … }` block below directly into your entry CSS (the file
+ * that has `@import "tailwindcss";`). Importing tokens.css separately is
+ * always safe — only the `@theme` block is entry-file-sensitive.
+ * ───────────────────────────────────────────────────────────────────────── */
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  /* radius scale, derived from the single --radius seed */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* colour roles → Tailwind colour utilities */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-brand: var(--brand);
+  --color-brand-foreground: var(--brand-foreground);
+  --color-brand-muted: var(--brand-muted);
+  --color-brand-ring: var(--brand-ring);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-subtle: var(--success-subtle);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-subtle: var(--warning-subtle);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-info-subtle: var(--info-subtle);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-avatar-1: var(--avatar-1);
+  --color-avatar-2: var(--avatar-2);
+  --color-avatar-3: var(--avatar-3);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* font families → font-sans / font-inter / font-poppins / font-mono */
+  --font-sans: var(--font-system);
+  --font-inter: var(--font-inter);
+  --font-poppins: var(--font-poppins);
+  --font-mono: var(--font-mono);
+
+  /* type scale → text-xs … text-7xl (size + paired line-height).
+     Mirrors tokens/typography.css so `text-2xl` etc. resolve from one ramp. */
+  --text-xs: var(--text-xs);     --text-xs--line-height: var(--text-xs-lh);
+  --text-sm: var(--text-sm);     --text-sm--line-height: var(--text-sm-lh);
+  --text-base: var(--text-base); --text-base--line-height: var(--text-base-lh);
+  --text-lg: var(--text-lg);     --text-lg--line-height: var(--text-lg-lh);
+  --text-xl: var(--text-xl);     --text-xl--line-height: var(--text-xl-lh);
+  --text-2xl: var(--text-2xl);   --text-2xl--line-height: var(--text-2xl-lh);
+  --text-3xl: var(--text-3xl);   --text-3xl--line-height: var(--text-3xl-lh);
+  --text-4xl: var(--text-4xl);   --text-4xl--line-height: var(--text-4xl-lh);
+  --text-5xl: var(--text-5xl);   --text-5xl--line-height: var(--text-5xl-lh);
+  --text-6xl: var(--text-6xl);   --text-6xl--line-height: var(--text-6xl-lh);
+  --text-7xl: var(--text-7xl);   --text-7xl--line-height: var(--text-7xl-lh);
+
+  /* font weights → font-normal / font-medium / font-semibold / font-bold */
+  --font-weight-normal: var(--font-weight-normal);
+  --font-weight-medium: var(--font-weight-medium);
+  --font-weight-semibold: var(--font-weight-semibold);
+  --font-weight-bold: var(--font-weight-bold);
+
+  /* letter-spacing → tracking-tighter … tracking-wider */
+  --tracking-tighter: var(--tracking-tighter);
+  --tracking-tight: var(--tracking-tight);
+  --tracking-normal: var(--tracking-normal);
+  --tracking-wide: var(--tracking-wide);
+  --tracking-wider: var(--tracking-wider);
+}

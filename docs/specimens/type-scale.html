@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VibeXP — Typography scale &amp; roles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* ---- tokens/tokens.css (subset) ---- */
+:root{
+  --background:oklch(1 0 0); --foreground:oklch(0.145 0 0);
+  --muted-foreground:oklch(0.556 0 0); --border:oklch(0.922 0 0);
+  --card:oklch(1 0 0); --accent:oklch(0.97 0 0); --primary:oklch(0.205 0 0);
+  --primary-foreground:oklch(0.985 0 0);
+  --avatar-1:oklch(0.55 0.13 255); --avatar-2:oklch(0.55 0.13 150); --avatar-3:oklch(0.55 0.13 30);
+}
+.dark{
+  --background:oklch(0.145 0 0); --foreground:oklch(0.985 0 0);
+  --muted-foreground:oklch(0.708 0 0); --border:oklch(1 0 0 / 10%);
+  --card:oklch(0.205 0 0); --accent:oklch(0.269 0 0); --primary:oklch(0.922 0 0);
+  --primary-foreground:oklch(0.205 0 0);
+  --avatar-1:oklch(0.68 0.14 255); --avatar-2:oklch(0.68 0.14 150); --avatar-3:oklch(0.68 0.14 30);
+}
+/* ---- tokens/fonts.css (subset) ---- */
+:root{ --font-inter:'Inter',system-ui,Avenir,Helvetica,Arial,sans-serif;
+  --font-mono:ui-monospace,'SFMono-Regular','JetBrains Mono','Menlo','Consolas',monospace; }
+
+/* ---- tokens/typography.css ---- */
+:root{
+  --text-xs:0.75rem;   --text-xs-lh:1rem;
+  --text-sm:0.875rem;  --text-sm-lh:1.25rem;
+  --text-base:1rem;    --text-base-lh:1.5rem;
+  --text-lg:1.125rem;  --text-lg-lh:1.75rem;
+  --text-xl:1.25rem;   --text-xl-lh:1.75rem;
+  --text-2xl:1.5rem;   --text-2xl-lh:2rem;
+  --text-3xl:1.875rem; --text-3xl-lh:2.25rem;
+  --text-4xl:2.25rem;  --text-4xl-lh:2.5rem;
+  --text-5xl:3rem;     --text-5xl-lh:1.08;
+  --text-6xl:3.75rem;  --text-6xl-lh:1.05;
+  --text-7xl:4.5rem;   --text-7xl-lh:1;
+  --text-fluid-display:clamp(2.25rem, 1.6rem + 2.7vw, 3.75rem);
+  --text-fluid-title:clamp(2.25rem, 1.92rem + 1.35vw, 3rem);
+  --text-fluid-section:clamp(1.875rem, 1.38rem + 2.02vw, 3rem);
+  --text-fluid-stat:clamp(1.875rem, 1.71rem + 0.67vw, 2.25rem);
+  --text-fluid-lead:clamp(1.125rem, 1.07rem + 0.22vw, 1.25rem);
+  --font-weight-normal:400; --font-weight-medium:500; --font-weight-semibold:600; --font-weight-bold:700;
+  --tracking-tighter:-0.03em; --tracking-tight:-0.018em; --tracking-normal:0em; --tracking-wide:0.02em; --tracking-wider:0.06em;
+}
+.type-display    { font-size:var(--text-fluid-display); line-height:1.05; font-weight:var(--font-weight-bold); letter-spacing:var(--tracking-tighter); }
+.type-title      { font-size:var(--text-fluid-title);   line-height:1.1;  font-weight:var(--font-weight-bold); letter-spacing:var(--tracking-tight); }
+.type-section    { font-size:var(--text-fluid-section); line-height:1.1;  font-weight:var(--font-weight-bold); letter-spacing:var(--tracking-tight); }
+.type-heading    { font-size:var(--text-2xl); line-height:var(--text-2xl-lh); font-weight:var(--font-weight-bold); letter-spacing:var(--tracking-tight); }
+.type-card-title { font-size:var(--text-xl); line-height:var(--text-xl-lh); font-weight:var(--font-weight-semibold); letter-spacing:var(--tracking-tight); }
+.type-stat       { font-size:var(--text-fluid-stat); line-height:1.1; font-weight:var(--font-weight-bold); letter-spacing:var(--tracking-tight); font-variant-numeric:tabular-nums; }
+.type-lead       { font-size:var(--text-fluid-lead); line-height:1.6; font-weight:var(--font-weight-normal); color:var(--muted-foreground); }
+.type-body       { font-size:var(--text-base); line-height:1.6; font-weight:var(--font-weight-normal); }
+.type-body-sm    { font-size:var(--text-sm); line-height:1.5; font-weight:var(--font-weight-normal); }
+.type-label      { font-size:var(--text-sm); line-height:var(--text-sm-lh); font-weight:var(--font-weight-medium); letter-spacing:var(--tracking-normal); }
+.type-caption    { font-size:var(--text-sm); line-height:1.5; font-weight:var(--font-weight-normal); color:var(--muted-foreground); }
+.type-overline   { font-size:var(--text-xs); line-height:var(--text-xs-lh); font-weight:var(--font-weight-semibold); letter-spacing:var(--tracking-wider); text-transform:uppercase; }
+.type-code       { font-size:var(--text-sm); line-height:var(--text-sm-lh); font-weight:var(--font-weight-normal); font-family:var(--font-mono); }
+
+/* ---- specimen chrome ---- */
+*{box-sizing:border-box}
+body{ margin:0; font-family:var(--font-inter); background:var(--background); color:var(--foreground); -webkit-font-smoothing:antialiased; }
+.wrap{ max-width:1080px; margin:0 auto; padding:48px max(20px,5vw) 96px; }
+header{ display:flex; align-items:flex-end; justify-content:space-between; gap:24px; flex-wrap:wrap; padding-bottom:28px; border-bottom:1px solid var(--border); margin-bottom:8px; }
+header p{ margin:10px 0 0; color:var(--muted-foreground); max-width:64ch; }
+.toggle{ font:inherit; font-size:0.8125rem; font-weight:600; padding:9px 16px; border-radius:8px; border:1px solid var(--border); background:var(--card); color:var(--foreground); cursor:pointer; }
+.sec{ margin:52px 0 0; }
+.sec > .lbl{ color:var(--muted-foreground); display:block; margin-bottom:24px; }
+
+.ramp{ display:flex; flex-direction:column; }
+.row{ display:grid; grid-template-columns:96px 1fr; gap:24px; align-items:baseline; padding:14px 0; border-bottom:1px solid var(--border); }
+.meta{ color:var(--muted-foreground); font-family:var(--font-mono); font-size:0.75rem; line-height:1.5; padding-top:6px; }
+.meta b{ color:var(--foreground); font-weight:600; display:block; font-size:0.8125rem; }
+.sample{ overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+
+.role{ display:grid; grid-template-columns:210px 1fr; gap:32px; align-items:baseline; padding:22px 0; border-bottom:1px solid var(--border); }
+.role .spec .name{ color:var(--foreground); font-weight:600; font-size:0.875rem; }
+.role .spec .cls{ font-family:var(--font-mono); font-size:0.75rem; color:var(--muted-foreground); display:block; margin-top:4px; }
+.role .spec .dim{ font-family:var(--font-mono); font-size:0.6875rem; color:var(--muted-foreground); display:block; margin-top:8px; line-height:1.7; }
+.demo{ min-width:0; }
+
+.avatars{ display:flex; gap:20px; flex-wrap:wrap; }
+.av{ display:flex; flex-direction:column; align-items:center; gap:10px; }
+.av .tile{ width:56px; height:56px; border-radius:999px; display:flex; align-items:center; justify-content:center; color:var(--primary-foreground); font-weight:600; font-size:1.125rem; }
+.av code{ font-family:var(--font-mono); font-size:0.6875rem; color:var(--muted-foreground); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <span class="type-overline" style="color:var(--muted-foreground)">Foundations · v0.7.0</span>
+      <h1 class="type-title" style="margin:8px 0 0">Typography</h1>
+      <p class="type-body">One ramp, one set of semantic roles shared across app, website, blog and docs. Sizes are <span class="type-code">rem</span> with paired line-heights; roles set size, leading, weight and tracking only — the surface's font-family (Inter on web, system in app) is inherited. Display tier and lead are fluid via <span class="type-code">clamp()</span>. Resize the window to watch them scale.</p>
+    </div>
+    <button class="toggle" id="tg">Toggle dark</button>
+  </header>
+
+  <section class="sec">
+    <span class="type-overline lbl">Semantic roles · the public API</span>
+    <div id="roles"></div>
+  </section>
+
+  <section class="sec">
+    <span class="type-overline lbl">Size scale · text-xs → text-7xl</span>
+    <div class="ramp" id="ramp"></div>
+  </section>
+
+  <section class="sec">
+    <span class="type-overline lbl">Avatar / identity · categorical palette</span>
+    <div class="avatars" id="avatars"></div>
+  </section>
+</div>
+
+<script>
+  const roles = [
+    ['display','.type-display','fluid 36→60 · 700 · -0.03em','Stop re-explaining everything'],
+    ['title','.type-title','fluid 36→48 · 700 · -0.018em','Your shared knowledge base'],
+    ['section','.type-section','fluid 30→48 · 700 · -0.018em','What you get out of the box'],
+    ['heading','.type-heading','24 / 32 · 700 · -0.018em','How VibeXP compounds'],
+    ['card-title','.type-card-title','20 / 28 · 600 · -0.018em','Recent agent runs'],
+    ['stat','.type-stat','fluid 30→36 · 700 · tabular-nums','1,284,096'],
+    ['lead','.type-lead','fluid 18→20 · 400 · muted','Every tool reads from and writes back to one shared base, so context compounds instead of resetting.'],
+    ['body','.type-body','16 / 1.6 · 400','VibeXP keeps your prompts, rules, memory and artifacts in one place your AI can build on across every session.'],
+    ['body-sm','.type-body-sm','14 / 1.5 · 400','Secondary copy, helper text and dense table cells sit at the small body size.'],
+    ['label','.type-label','14 / 20 · 500','Start free trial'],
+    ['caption','.type-caption','14 / 1.5 · 400 · muted','Updated 2 minutes ago · 3 agents running'],
+    ['overline','.type-overline','12 / 16 · 600 · 0.06em · caps','The shared knowledge base'],
+    ['code','.type-code','14 / 20 · 400 · mono','npm i @vibexp/design-system']
+  ];
+  document.getElementById('roles').innerHTML = roles.map(([n,c,d,sample])=>`
+    <div class="role">
+      <div class="spec"><span class="name">${n}</span><span class="cls">${c}</span><span class="dim">${d}</span></div>
+      <div class="demo"><span class="type-${n}">${sample}</span></div>
+    </div>`).join('');
+
+  const scale = [['xs','0.75rem','1rem'],['sm','0.875rem','1.25rem'],['base','1rem','1.5rem'],['lg','1.125rem','1.75rem'],['xl','1.25rem','1.75rem'],['2xl','1.5rem','2rem'],['3xl','1.875rem','2.25rem'],['4xl','2.25rem','2.5rem'],['5xl','3rem','1.08'],['6xl','3.75rem','1.05'],['7xl','4.5rem','1']];
+  document.getElementById('ramp').innerHTML = scale.map(([k,s,lh])=>`
+    <div class="row">
+      <div class="meta"><b>text-${k}</b>${s} / ${lh}</div>
+      <div class="sample" style="font-size:var(--text-${k});line-height:var(--text-${k}-lh);font-weight:500;letter-spacing:${parseFloat(s)>=3?'-0.03em':parseFloat(s)>=2.25?'-0.018em':'0'}">Knowledge that compounds</div>
+    </div>`).join('');
+
+  const av = [['avatar-1','AK'],['avatar-2','MS'],['avatar-3','JR']];
+  document.getElementById('avatars').innerHTML = av.map(([v,init])=>`
+    <div class="av"><div class="tile" style="background:var(--${v})">${init}</div><code>--${v}</code></div>`).join('');
+
+  const tg=document.getElementById('tg');
+  const apply=v=>{ document.documentElement.classList.toggle('dark',v); try{localStorage.setItem('vx-type-dark',v?'1':'0')}catch(e){} };
+  apply((()=>{try{return localStorage.getItem('vx-type-dark')==='1'}catch(e){return false}})());
+  tg.onclick=()=>apply(!document.documentElement.classList.contains('dark'));
+</script>
+</body>
+</html>

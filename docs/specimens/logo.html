@@ -1,0 +1,64 @@
+<!-- @dsCard group="Brand" viewport="700x300" name="Logo" subtitle="Mark · glyph · lockup — the real ./react components" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<!-- design tokens (the @theme block in theme.css is ignored by the browser; tokens.css applies) -->
+<link rel="stylesheet" href="../../index.css" />
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@18.3.1",
+    "react/jsx-runtime": "https://esm.sh/react@18.3.1/jsx-runtime?external=react",
+    "react-dom/client": "https://esm.sh/react-dom@18.3.1/client?external=react"
+  }
+}
+</script>
+<style>
+  body { margin: 0; font-family: var(--font-system); background: var(--background); color: var(--foreground); }
+  .wrap { padding: 24px 26px; display: flex; flex-direction: column; gap: 26px; }
+  .lab { font-size: 11px; font-family: var(--font-mono); color: var(--muted-foreground); margin-bottom: 12px; letter-spacing: 0.02em; }
+  .row { display: flex; flex-wrap: wrap; align-items: center; gap: 28px; }
+  .note { padding: 16px 18px; border: 1px dashed var(--border); border-radius: var(--radius-lg, 0.625rem); color: var(--muted-foreground); font-size: 13px; line-height: 1.6; }
+  code { font-family: var(--font-mono); font-size: 0.92em; }
+</style>
+</head>
+<body>
+  <div class="wrap" id="root"></div>
+
+  <!-- The components are prebuilt (dist/react/), so no JSX/Babel here — just
+       native ES modules composed with createElement. -->
+  <script type="module">
+    import { createElement as h, Fragment } from "react";
+    import { createRoot } from "react-dom/client";
+
+    let mod;
+    try {
+      mod = await import("../../dist/react/index.js");
+    } catch (err) {
+      document.getElementById("root").innerHTML =
+        '<div class="note"><b>Build the package first.</b> These specimens render the real ' +
+        '<code>./react</code> components from <code>dist/</code>. Run <code>npm run build</code>, then reload.</div>';
+      throw err;
+    }
+    const { LogoMark, LogoGlyph, LogoLockup } = mod;
+
+    const lab = (t) => h("div", { className: "lab" }, t);
+    const row = (...kids) => h("div", { className: "row" }, ...kids);
+    const block = (label, ...kids) => h("div", null, lab(label), row(...kids));
+
+    createRoot(document.getElementById("root")).render(
+      h(Fragment, null,
+        block("LogoMark — rounded tile, glyph knocks out to --background",
+          h(LogoMark, { size: 32 }), h(LogoMark, { size: 48 }), h(LogoMark, { size: 64 })),
+        block("LogoGlyph — bare waveform, inherits currentColor",
+          h(LogoGlyph, { size: 32 }), h(LogoGlyph, { size: 48 }), h(LogoGlyph, { size: 64 })),
+        block("LogoLockup — mark + Inter wordmark",
+          h(LogoLockup, { size: 28 }), h(LogoLockup, { size: 40, wordmark: "vibexp.io" })),
+      )
+    );
+  </script>
+
+  <script src="./_theme-sync.js"></script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+/* =============================================================================
+ * @vibexp/design-system — long-form / prose styles (blog + docs)
+ *
+ * Apply `class="prose"` to an article container. All colours bind to the
+ * design tokens, so prose flips for dark mode with no extra classes.
+ *
+ * Mirrors the product's @tailwindcss/typography overrides. In the monorepo
+ * these are scoped under `.v2-root .prose`; this distributable targets
+ * `.prose` directly so any service can use it. Scope it yourself if needed.
+ * ============================================================================= */
+
+.prose {
+  --tw-prose-body: var(--foreground);
+  --tw-prose-headings: var(--foreground);
+  --tw-prose-lead: var(--muted-foreground);
+  --tw-prose-links: var(--primary);
+  --tw-prose-bold: var(--foreground);
+  --tw-prose-counters: var(--muted-foreground);
+  --tw-prose-bullets: var(--muted-foreground);
+  --tw-prose-hr: var(--border);
+  --tw-prose-quotes: var(--muted-foreground);
+  --tw-prose-quote-borders: var(--border);
+  --tw-prose-captions: var(--muted-foreground);
+  --tw-prose-code: var(--foreground);
+  --tw-prose-th-borders: var(--border);
+  --tw-prose-td-borders: var(--border);
+  font-family: var(--font-inter);
+  font-size: 0.875rem;
+  line-height: 1.75;
+  max-width: none;
+  color: var(--tw-prose-body);
+}
+
+.prose :where(h1) { font-size: 1.5rem;   font-weight: 700; line-height: 2rem;     margin: 1.5rem 0 0.75rem; color: var(--tw-prose-headings); }
+.prose :where(h2) { font-size: 1.25rem;  font-weight: 600; line-height: 1.75rem;  margin: 1.25rem 0 0.5rem; color: var(--tw-prose-headings); }
+.prose :where(h3) { font-size: 1.125rem; font-weight: 600; line-height: 1.5rem;   margin: 1rem 0 0.5rem;    color: var(--tw-prose-headings); }
+.prose :where(h4) { font-size: 1.125rem; font-weight: 600; line-height: 1.5rem;   margin: 1.25rem 0 0.5rem; color: var(--tw-prose-headings); }
+.prose :where(h5) { font-size: 1rem;     font-weight: 600; line-height: 1.5rem;   margin: 1rem 0 0.5rem;    color: var(--tw-prose-headings); }
+.prose :where(h6) { font-size: 0.875rem; font-weight: 600; line-height: 1.25rem;  margin: 1rem 0 0.5rem;    color: var(--tw-prose-headings); }
+
+.prose :where(p) { margin: 1rem 0; color: var(--tw-prose-body); }
+.prose :where(a) { color: var(--tw-prose-links); text-decoration: underline; text-underline-offset: 2px; }
+
+.prose :where(code):not(:where(pre *)) {
+  background-color: var(--muted);
+  color: var(--tw-prose-code);
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+  font-weight: 600;
+  font-family: var(--font-mono);
+}
+.prose :where(code)::before,
+.prose :where(code)::after { content: ''; }
+
+.prose :where(pre) {
+  /* background/color owned by your syntax-highlight theme (e.g. Prism) */
+  padding: 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+.prose :where(pre code) { background: transparent; padding: 0; border-radius: 0; font-size: inherit; font-weight: inherit; color: inherit; }
+
+.prose :where(blockquote) {
+  border-left: 4px solid var(--tw-prose-quote-borders);
+  padding-left: 1rem;
+  font-style: italic;
+  margin: 1.5rem 0;
+  color: var(--tw-prose-quotes);
+}
+
+.prose :where(table) { width: 100%; margin: 1.5rem 0; font-size: 0.875rem; border-collapse: collapse; }
+.prose :where(th) { background-color: var(--muted); font-weight: 600; padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--tw-prose-th-borders); color: var(--tw-prose-headings); }
+.prose :where(td) { padding: 0.75rem; border-bottom: 1px solid var(--tw-prose-td-borders); color: var(--tw-prose-body); }
+
+.prose :where(ul) { margin: 1rem 0; padding-left: 1.5rem; }
+.prose :where(ol) { margin: 1rem 0; padding-left: 1.5rem; }
+.prose :where(li) { margin: 0.5rem 0; }
+.prose :where(hr) { border-color: var(--tw-prose-hr); margin: 1.5rem 0; }

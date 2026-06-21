@@ -1,0 +1,21 @@
+/* =============================================================================
+ * @vibexp/design-system — barrel
+ *
+ * One-line import for consumers:
+ *     @import 'tailwindcss';
+ *     @import '@vibexp/design-system';
+ *
+ * Order matters: fonts + tokens define the variables, theme maps them to
+ * Tailwind utilities, prose consumes them, a11y adds the accessibility baseline.
+ *
+ * NOTE (Tailwind v4): if utilities like `bg-primary` don't generate, move
+ * the `@theme inline { … }` block from tokens/theme.css into your entry CSS
+ * file. See tokens/theme.css for details.
+ * ============================================================================= */
+
+@import './tokens/fonts.css';
+@import './tokens/tokens.css';
+@import './tokens/typography.css';
+@import './tokens/theme.css';
+@import './tokens/prose.css';
+@import './tokens/a11y.css';

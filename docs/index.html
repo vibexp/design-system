@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VibeXP Design System</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="ds/ds.css" />
+  <style>
+    /* catalog-landing-only styles (the shell chrome lives in ds/ds.css) */
+    .cat-search { position: relative; max-width: 480px; margin: 30px 0 8px; }
+    .cat-search input {
+      width: 100%; box-sizing: border-box; padding: 11px 14px 11px 38px;
+      font: inherit; font-size: 14px; color: var(--foreground);
+      background: var(--background); border: 1px solid var(--border);
+      border-radius: var(--radius); outline: none;
+    }
+    .cat-search input:focus { border-color: var(--ring); box-shadow: 0 0 0 3px color-mix(in oklch, var(--ring) 30%, transparent); }
+    .cat-search svg { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--muted-foreground); pointer-events: none; }
+    .cat-grid { display: grid; gap: 14px; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); margin-top: 20px; }
+    a.cat-card {
+      display: flex; flex-direction: column; gap: 9px; padding: 18px;
+      border: 1px solid var(--border); border-radius: var(--radius-lg, 0.625rem);
+      background: var(--card); color: var(--card-foreground); text-decoration: none;
+      transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease;
+    }
+    a.cat-card:hover { border-color: var(--foreground); transform: translateY(-2px); box-shadow: 0 6px 22px -12px color-mix(in oklch, var(--foreground) 45%, transparent); }
+    .cat-card__top { display: flex; align-items: center; justify-content: space-between; }
+    .cat-card__icon { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 9px; background: var(--muted); color: var(--foreground); }
+    .cat-card__tag { font-family: var(--font-mono, monospace); font-size: 10px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted-foreground); }
+    .cat-card__title { font-size: 15px; font-weight: 650; letter-spacing: -0.01em; }
+    .cat-card__blurb { font-size: 13px; line-height: 1.55; color: var(--muted-foreground); }
+    .cat-empty { padding: 28px 0; color: var(--muted-foreground); font-size: 14px; }
+  </style>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- shared primitives + chrome, then the landing (hero + searchable catalog) -->
+  <script type="text/babel" src="ds/primitives.jsx"></script>
+  <script type="text/babel" src="shared/shell.js"></script>
+  <script type="text/babel">
+    const { createRoot } = ReactDOM;
+
+    /* Every navigable surface, cataloged. Sections live under pages/; the
+       specimens are the standalone real-component documents under specimens/. */
+    const CATALOG = [
+      { title: "Color", href: "pages/color.html", tag: "Foundation", icon: "palette",
+        blurb: "OKLCH neutral tokens, semantic roles, status hues and the chart scale — full light/dark parity.",
+        kw: "color colour token oklch background foreground primary muted destructive success warning info chart" },
+      { title: "Typography", href: "pages/typography.html", tag: "Foundation", icon: "type",
+        blurb: "The .type-* role vocabulary, fluid display tiers and the font stacks (system, Inter).",
+        kw: "typography type font inter scale heading display lead caption" },
+      { title: "Spacing & radius", href: "pages/spacing.html", tag: "Foundation", icon: "ruler",
+        blurb: "The spacing scale and every radius derived from the single --radius seed.",
+        kw: "spacing space radius gap padding margin size seed" },
+      { title: "Accessibility", href: "pages/accessibility.html", tag: "Foundation", icon: "shield",
+        blurb: "Contrast targets, focus rings, motion and the rules that keep both themes usable.",
+        kw: "accessibility a11y contrast focus ring motion wcag" },
+      { title: "Components", href: "pages/components.html", tag: "Library", icon: "layout",
+        blurb: "The UI primitive specimens — buttons, badges, inputs and friends — with copy-ready class names.",
+        kw: "components button badge input card primitive ui shadcn" },
+      { title: "Brand · React", href: "pages/brand-react.html", tag: "Library", icon: "bot",
+        blurb: "The shipped ./react brand primitives — Logo family and the inline Icon set — rendered live.",
+        kw: "brand react logo logomark logoglyph logolockup icon component dist" },
+      { title: "Patterns", href: "pages/patterns.html", tag: "Library", icon: "box",
+        blurb: "Composed layouts and recurring recipes built from the primitives.",
+        kw: "patterns layout recipe composition example" },
+      { title: "Guidelines", href: "pages/guidelines.html", tag: "Library", icon: "shield",
+        blurb: "How to consume the system — the reference-roles-never-literals rules and do/don't guidance.",
+        kw: "guidelines rules dos donts usage consume convention" },
+      { title: "Logo specimen", href: "specimens/logo.html", tag: "Specimen", icon: "bot",
+        blurb: "Standalone document rendering the real LogoMark / Glyph / Lockup from dist/react.",
+        kw: "logo specimen mark glyph lockup brand dist real" },
+      { title: "Icon specimen", href: "specimens/icon.html", tag: "Specimen", icon: "box",
+        blurb: "The curated inline Icon set, every name, from the built package.",
+        kw: "icon specimen lucide svg names set" },
+      { title: "Type-scale specimen", href: "specimens/type-scale.html", tag: "Specimen", icon: "type",
+        blurb: "The full type scale, every role at its real size, as a standalone page.",
+        kw: "type scale specimen font size role" },
+    ];
+
+    function Hero() {
+      const stats = [
+        ["18", "UI primitives"],
+        ["38", "semantic tokens"],
+        ["1", "radius seed → 4 steps"],
+        ["2", "themes, value-flipped"],
+      ];
+      return (
+        <section className="section" style={{ paddingTop: 6 }}>
+          <div className="row" style={{ gap: 10, marginBottom: 18 }}>
+            <Badge variant="brand">v1.0</Badge>
+            <Badge variant="outline">shadcn/ui · default</Badge>
+            <Badge variant="outline">neutral base</Badge>
+            <Badge variant="outline">black brand</Badge>
+            <Badge variant="outline">Tailwind v4</Badge>
+          </div>
+          <h1 style={{ fontSize: 46, fontWeight: 800, letterSpacing: "-0.035em", lineHeight: 1.04, margin: 0, maxWidth: "16ch" }}>
+            The VibeXP Design System
+          </h1>
+          <p style={{ fontSize: 17, lineHeight: 1.6, color: "var(--muted-foreground)", maxWidth: "62ch", marginTop: 18 }}>
+            A living reference for the product, website, blog and docs — codified straight from the
+            shadcn/ui foundation already in the codebase. Pure-neutral OKLCH tokens, a single radius seed,
+            full light/dark parity, and a deliberately <strong>neutral black brand</strong> — no accent
+            hues, no gradients. Pick a topic below; each page is the real thing, with the authentic class
+            names to copy.
+          </p>
+          <div className="row" style={{ gap: 10, marginTop: 26 }}>
+            <a className="sh-btn sh-btn--brand" href="pages/color.html"><Icon name="palette" size={16} /> Explore tokens</a>
+            <a className="sh-btn sh-btn--outline" href="pages/components.html"><Icon name="layout" size={16} /> Component library</a>
+          </div>
+          <div className="swatch-grid" style={{ marginTop: 40, gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))" }}>
+            {stats.map((s) => (
+              <div className="spec-card" key={s[1]} style={{ textAlign: "left" }}>
+                <div style={{ fontSize: 32, fontWeight: 800, letterSpacing: "-0.03em", lineHeight: 1 }}>{s[0]}</div>
+                <div style={{ fontSize: 13, color: "var(--muted-foreground)", marginTop: 6 }}>{s[1]}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+      );
+    }
+
+    function Catalog() {
+      const [q, setQ] = useState("");
+      const needle = q.trim().toLowerCase();
+      const items = needle
+        ? CATALOG.filter((c) => (c.title + " " + c.tag + " " + c.kw).toLowerCase().includes(needle))
+        : CATALOG;
+      return (
+        <section className="section" style={{ paddingTop: 8 }}>
+          <p className="section__eyebrow">Catalog</p>
+          <h2 className="section__title">Everything in the system</h2>
+          <p className="section__lead">
+            One card per surface. Open the one you need, copy what you came for, leave. Search by name,
+            token, or component.
+          </p>
+          <div className="cat-search">
+            <Icon name="search" size={16} />
+            <input
+              type="text" value={q} onChange={(e) => setQ(e.target.value)}
+              placeholder="Search color, button, radius, logo…" aria-label="Search the catalog"
+            />
+          </div>
+          {items.length === 0 ? (
+            <div className="cat-empty">No surface matches “{q}”.</div>
+          ) : (
+            <div className="cat-grid">
+              {items.map((c) => (
+                <a className="cat-card" href={c.href} key={c.href}>
+                  <div className="cat-card__top">
+                    <span className="cat-card__icon"><Icon name={c.icon} size={17} /></span>
+                    <span className="cat-card__tag">{c.tag}</span>
+                  </div>
+                  <div className="cat-card__title">{c.title}</div>
+                  <div className="cat-card__blurb">{c.blurb}</div>
+                </a>
+              ))}
+            </div>
+          )}
+        </section>
+      );
+    }
+
+    createRoot(document.getElementById("root")).render(
+      <Shell active="overview" base="pages/" homeHref="index.html">
+        <Hero />
+        <Catalog />
+      </Shell>
+    );
+  </script>
+</body>
+</html>

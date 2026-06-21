@@ -1,0 +1,63 @@
+<!-- @dsCard group="Brand" viewport="700x360" name="Icon" subtitle="Inline Lucide-style set — the real ./react component" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<link rel="stylesheet" href="../../index.css" />
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@18.3.1",
+    "react/jsx-runtime": "https://esm.sh/react@18.3.1/jsx-runtime?external=react",
+    "react-dom/client": "https://esm.sh/react-dom@18.3.1/client?external=react"
+  }
+}
+</script>
+<style>
+  body { margin: 0; font-family: var(--font-system); background: var(--background); color: var(--foreground); }
+  .wrap { padding: 24px 26px; display: flex; flex-direction: column; gap: 22px; }
+  .lab { font-size: 11px; font-family: var(--font-mono); color: var(--muted-foreground); margin-bottom: 14px; letter-spacing: 0.02em; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 10px; }
+  .cell { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 14px 6px; border: 1px solid var(--border); border-radius: var(--radius-md, 0.5rem); }
+  .cell span { font-size: 10px; font-family: var(--font-mono); color: var(--muted-foreground); }
+  .sizes { display: flex; align-items: center; gap: 18px; }
+  .note { padding: 16px 18px; border: 1px dashed var(--border); border-radius: var(--radius-lg, 0.625rem); color: var(--muted-foreground); font-size: 13px; line-height: 1.6; }
+  code { font-family: var(--font-mono); font-size: 0.92em; }
+</style>
+</head>
+<body>
+  <div class="wrap" id="root"></div>
+
+  <script type="module">
+    import { createElement as h, Fragment } from "react";
+    import { createRoot } from "react-dom/client";
+
+    let mod;
+    try {
+      mod = await import("../../dist/react/index.js");
+    } catch (err) {
+      document.getElementById("root").innerHTML =
+        '<div class="note"><b>Build the package first.</b> These specimens render the real ' +
+        '<code>./react</code> components from <code>dist/</code>. Run <code>npm run build</code>, then reload.</div>';
+      throw err;
+    }
+    const { Icon, ICON_NAMES } = mod;
+
+    const sizes = h("div", { className: "sizes" },
+      ...[16, 20, 24, 32].map((s) => h(Icon, { key: s, name: "rocket", size: s })));
+
+    const grid = h("div", { className: "grid" },
+      ...ICON_NAMES.map((n) =>
+        h("div", { className: "cell", key: n }, h(Icon, { name: n, size: 20 }), h("span", null, n))));
+
+    createRoot(document.getElementById("root")).render(
+      h(Fragment, null,
+        h("div", null, h("div", { className: "lab" }, "sizes — currentColor, 2px stroke (size 16 → 20 → 24 → 32)"), sizes),
+        h("div", null, h("div", { className: "lab" }, ICON_NAMES.length + " glyphs — ICON_NAMES"), grid),
+      )
+    );
+  </script>
+
+  <script src="./_theme-sync.js"></script>
+</body>
+</html>
