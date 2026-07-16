@@ -1,0 +1,27 @@
+{
+  "projectId": "9ad1e41e-ed1f-4b6e-9928-a9e9892f619e",
+  "shape": "package",
+  "pkg": "@vibexp/design-system",
+  "globalName": "VibexpDS",
+  "buildCmd": "npm run build",
+  "tokensGlob": "tokens/*.css",
+  "componentSrcMap": {
+    "Logo": "src/react/Logo.tsx",
+    "LogoMark": "src/react/Logo.tsx",
+    "LogoGlyph": "src/react/Logo.tsx",
+    "LogoLockup": "src/react/Logo.tsx",
+    "Icon": "src/react/Icon.tsx"
+  },
+  "docsMap": {
+    "Logo": ".design-sync/docs/Logo.md",
+    "LogoMark": ".design-sync/docs/LogoMark.md",
+    "LogoGlyph": ".design-sync/docs/LogoGlyph.md",
+    "LogoLockup": ".design-sync/docs/LogoLockup.md",
+    "Icon": ".design-sync/docs/Icon.md"
+  },
+  "dtsPropsFor": {
+    "Icon": "/** Icon name from the built-in set (all 33 names in ICON_NAMES). */\n  name: \"check\" | \"chevronDown\" | \"chevronRight\" | \"chevronLeft\" | \"search\" | \"plus\" | \"x\" | \"info\" | \"alert\" | \"check2\" | \"sun\" | \"moon\" | \"copy\" | \"palette\" | \"type\" | \"box\" | \"layout\" | \"inbox\" | \"bot\" | \"sliders\" | \"play\" | \"pause\" | \"settings\" | \"zap\" | \"github\" | \"arrowRight\" | \"externalLink\" | \"menu\" | \"clock\" | \"fileText\" | \"book\" | \"rocket\" | \"shield\";\n  /** Pixel size (width = height). @default 16 */\n  size?: number;\n  /** Stroke width (the SVG stroke colour is fixed to currentColor). @default 2 */\n  stroke?: number;\n  /** Accessible label. When set, the icon is exposed to AT; otherwise aria-hidden. */\n  title?: string;\n  className?: string;\n  style?: React.CSSProperties;"
+  },
+  "tokensPkg": "@vibexp/design-system",
+  "readmeHeader": ".design-sync/conventions.md"
+}
