@@ -5,6 +5,9 @@ node_modules/
 dist/
 *.tgz
 
+# test coverage
+coverage/
+
 # os / editor
 .DS_Store
 Thumbs.db
