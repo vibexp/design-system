@@ -3,6 +3,17 @@
 All notable changes to `@vibexp/design-system` are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.2.1] — 2026-09-13
+
+### Fixed
+- `tokens/scrollbar.css` no longer restyles the document scrollbar. The
+  rules excluded `html` but not `body`, and Chrome draws the viewport
+  scrollbar from `body`'s `::-webkit-scrollbar` rules whenever body's
+  overflow propagates to the viewport (the normal case), so the page bar
+  came out 10px thin instead of native, contradicting the file's own
+  contract. Both `html` and `body` are excluded now; every in-app overflow
+  container is unchanged.
+
 ## [0.2.0] — 2026-09-13
 
 ### Added
