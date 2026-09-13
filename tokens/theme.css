@@ -22,6 +22,16 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
+  /* sizing roles → w-* / min-w-* / max-w-* / basis-*. Tailwind v4 reads the
+     --container-* namespace for these (not --width-* / --size-*), e.g.
+     w-rail-expanded, min-w-control-search-min, max-w-control-search-max. */
+  --container-control-sm: var(--control-width-sm);
+  --container-control-search-min: var(--control-search-min);
+  --container-control-search-max: var(--control-search-max);
+  --container-rail-collapsed: var(--rail-collapsed);
+  --container-rail-expanded: var(--rail-expanded);
+  --container-details-column: var(--details-column);
+
   /* colour roles → Tailwind colour utilities */
   --color-background: var(--background);
   --color-foreground: var(--foreground);

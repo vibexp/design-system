@@ -467,6 +467,14 @@ const SPACE = [
   ["1", "0.25rem", "4px"], ["2", "0.5rem", "8px"], ["3", "0.75rem", "12px"],
   ["4", "1rem", "16px"], ["6", "1.5rem", "24px"], ["8", "2rem", "32px"], ["12", "3rem", "48px"],
 ];
+const SIZES = [
+  ["control-width-sm", "9.375rem · 150px", "w-control-sm", "Compact filter select trigger"],
+  ["control-search-min", "15rem · 240px", "min-w-control-search-min", "Search field floor"],
+  ["control-search-max", "30rem · 480px", "max-w-control-search-max", "Search field ceiling"],
+  ["rail-collapsed", "3.75rem · 60px", "w-rail-collapsed", "Nav rail, icons only"],
+  ["rail-expanded", "16.5rem · 264px", "w-rail-expanded", "Nav rail, labelled"],
+  ["details-column", "20rem · 320px", "w-details-column", "Reading-page details column"],
+];
 
 function SpacingSection() {
   return (
@@ -474,7 +482,7 @@ function SpacingSection() {
       id="spacing"
       eyebrow="Foundations"
       title="Spacing, radius & elevation"
-      lead="A single --radius token (0.625rem) seeds the whole corner system; everything else derives from it. Spacing follows Tailwind's 4px base unit, and elevation is a restrained three-step shadow ramp."
+      lead="A single --radius token (0.625rem) seeds the whole corner system; everything else derives from it. Spacing follows Tailwind's 4px base unit, elevation is a restrained three-step shadow ramp, and recurring layout widths are named sizing roles."
     >
       <SubHead>Radius</SubHead>
       <SubNote>Set <code>--radius: 0.625rem</code> once; the sm/md/lg/xl steps compute off it.</SubNote>
@@ -515,6 +523,17 @@ function SpacingSection() {
           </div>
         ))}
       </div>
+
+      <SubHead>Sizing roles</SubHead>
+      <SubNote>Named widths for recurring layout roles — use these instead of <code>w-[150px]</code>-style literals. Sizes don't flip in dark, so they live in <code>:root</code> only.</SubNote>
+      <PropTable
+        cols={["Token", "Value", "Utility", "Role"]}
+        rows={SIZES.map((s) => [<code>--{s[0]}</code>, s[1], <Chip text={s[2]} />, s[3]])}
+      />
+      <Callout>
+        <code>--details-column</code> is the reading-page details column specifically, not a general 320px width — popovers that happen to use <code>w-80</code> should keep it.
+        Tailwind v4 only reads <code>@theme</code> from your entry CSS: if your app keeps its own <code>@theme inline</code> block, add the six <code>--container-*</code> lines there or the utilities won't exist.
+      </Callout>
     </Section>
   );
 }
