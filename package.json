@@ -26,6 +26,7 @@
     "./prose.css": "./tokens/prose.css",
     "./fonts.css": "./tokens/fonts.css",
     "./a11y.css": "./tokens/a11y.css",
+    "./scrollbar.css": "./tokens/scrollbar.css",
     "./tokens.json": "./tokens.json",
     "./react": {
       "types": "./dist/react/index.d.ts",

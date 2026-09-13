@@ -162,6 +162,42 @@ function AccessibilitySection() {
         </div>
       </Example>
 
+      {/* ---- SCROLLBARS ---- */}
+      <SubHead>Scrollbars</SubHead>
+      <SubNote>
+        Every overflow container inside the app draws the same thin, rounded thumb on a transparent
+        track, from <code>tokens/scrollbar.css</code>. The colour is <code>--scrollbar-thumb</code>, a
+        translucent <code>--foreground</code> mix, so one value has contrast on any surface of its
+        theme (<code>--border</code> is 10% white in dark and vanishes as a 4px thumb). The document's
+        own scrollbar stays native.
+      </SubNote>
+      <Example
+        code={`/* opt a sticky side column into hover-reveal */
+<aside class="scrollbar-hover" style="overflow-y:auto">…</aside>
+
+/* a surface whose background does not follow the theme */
+.prose pre {
+  --scrollbar-thumb: rgb(255 255 255 / 22%);
+  --scrollbar-thumb-hover: rgb(255 255 255 / 45%);
+}`}
+      >
+        <div
+          className="scrollbar-hover"
+          style={{ height: 120, overflowY: "auto", border: "1px solid var(--border)", borderRadius: "var(--radius-md)", padding: 12 }}
+        >
+          {Array.from({ length: 12 }, (_, i) => (
+            <div key={i} style={{ padding: "4px 0", color: "var(--muted-foreground)" }}>
+              Row {i + 1} — hover the box to reveal the bar
+            </div>
+          ))}
+        </div>
+      </Example>
+      <Callout>
+        <b>Keyboard.</b> A wide table or code block that scrolls sideways needs{" "}
+        <code>tabindex="0"</code> on its scroll container — a hidden or thin bar changes nothing
+        about reachability, but a container nobody can focus does (WCAG 2.1.1).
+      </Callout>
+
       {/* ---- AUTHORING RULES ---- */}
       <SubHead>Rules for authors</SubHead>
       <SubNote>What the system can't enforce for you — own these when you compose UI.</SubNote>
