@@ -16,6 +16,16 @@ This project adheres to [Semantic Versioning](https://semver.org/).
   `tokens.json` under a new `size` key. Documented on the spacing page.
   Apps that keep their own entry-file `@theme inline` block must add the six
   `--container-*` lines there for the utilities to exist.
+- **Scrollbar tokens and stylesheet.** `--scrollbar-thumb` and
+  `--scrollbar-thumb-hover` (translucent `--foreground` mixes, so they flip
+  with `.dark` and keep contrast on every surface — `--border` is 10% white in
+  dark and vanishes as a thumb), mirrored in `tokens.json` under `scrollbar`.
+  New `tokens/scrollbar.css` (in the barrel; also exported as
+  `./scrollbar.css`) draws a thin rounded thumb on a transparent track for
+  every overflow container except the document, with a `.scrollbar-hover`
+  class that reveals the bar only under the pointer for sticky side columns.
+  WebKit pseudo-elements for Chrome/Safari, `scrollbar-width`/`scrollbar-color`
+  for Firefox. Documented on the accessibility page.
 
 ### Fixed
 - `tokens.json` `version` now matches `package.json` (it had drifted to `0.7.1`).

@@ -107,6 +107,16 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.45 0 0);
 
+  /* scrollbars — the thumb every overflow container draws (tokens/scrollbar.css).
+     A translucent --foreground rather than --border: --border is 10% white in
+     dark, invisible as a 4px thumb, while a foreground mix has contrast on any
+     surface of its theme. Like the brand aliases, no .dark override is needed
+     because --foreground already flips. Override per surface where the
+     background does not follow the theme (a syntax-highlighted code block
+     that is dark in both themes wants a white mix). */
+  --scrollbar-thumb: color-mix(in oklch, var(--foreground) 22%, transparent);
+  --scrollbar-thumb-hover: color-mix(in oklch, var(--foreground) 45%, transparent);
+
   /* elevation — a restrained three-step shadow ramp (the Tailwind defaults).
      Depth signals layering, not decoration. Theme-independent (shadows do not
      flip in dark). --shadow-md is consumed by the .skip-link in a11y.css. */

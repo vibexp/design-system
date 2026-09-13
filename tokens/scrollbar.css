@@ -1,0 +1,76 @@
+/* =============================================================================
+ * @vibexp/design-system — scrollbars
+ *
+ * One treatment for every overflow container: a thin rounded thumb on a
+ * transparent track that strengthens under the pointer. The thumb colour is
+ * the --scrollbar-thumb token (a --foreground mix, so it flips with .dark and
+ * has contrast on any surface of its theme). The document's own scrollbar is
+ * left native on purpose — it is the one bar users expect to look like the OS.
+ *
+ * Chrome and Safari take the ::-webkit-scrollbar pseudo-elements. Chrome
+ * ignores them as soon as `scrollbar-width` / `scrollbar-color` is set on the
+ * same element, so those two standard properties are given only to engines
+ * WITHOUT the pseudo-elements (Firefox) via @supports.
+ *
+ * `.scrollbar-hover` reveals the bar only while the pointer is over the
+ * container — for always-mounted sticky columns beside the page scroller,
+ * where a second permanent bar reads as clutter. The region still scrolls
+ * with the wheel and keyboard when the bar is hidden; give a wide-content
+ * scroll region `tabindex="0"` so it is keyboard reachable (WCAG 2.1.1).
+ *
+ * Per-surface override: set --scrollbar-thumb / --scrollbar-thumb-hover on
+ * the container (e.g. a syntax-highlighted <pre> that is dark in both themes
+ * wants `rgb(255 255 255 / 22%)`).
+ * ============================================================================= */
+
+@supports selector(::-webkit-scrollbar) {
+  :where(:not(html))::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  :where(:not(html))::-webkit-scrollbar-track,
+  :where(:not(html))::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  /* 4px of visible thumb inside a 10px lane: the transparent border keeps the
+     whole lane grabbable while the drawn thumb stays thin. */
+  :where(:not(html))::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb);
+    background-clip: padding-box;
+    border: 3px solid transparent;
+    border-radius: 9999px;
+  }
+
+  :where(:not(html))::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-thumb-hover);
+  }
+
+  .scrollbar-hover::-webkit-scrollbar-thumb {
+    background-color: transparent;
+  }
+
+  .scrollbar-hover:hover::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb);
+  }
+
+  .scrollbar-hover:hover::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-thumb-hover);
+  }
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  :where(:not(html)) {
+    scrollbar-width: thin;
+    scrollbar-color: var(--scrollbar-thumb) transparent;
+  }
+
+  .scrollbar-hover {
+    scrollbar-color: transparent transparent;
+  }
+
+  .scrollbar-hover:hover {
+    scrollbar-color: var(--scrollbar-thumb) transparent;
+  }
+}
