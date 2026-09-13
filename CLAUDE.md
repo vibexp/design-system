@@ -74,6 +74,7 @@ Brand React primitives live in `src/react/` as TypeScript (`.tsx`), compiled by 
 - Everything radius-related derives from the single seed `--radius: 0.625rem`.
 - Commit messages use conventional prefixes (`feat:` / `fix:` / `docs:` / `refactor:`).
 - This package owns tokens **and brand React primitives** (`Logo*`, `Icon`). It does **not** yet own the product UI kit — services still generate shadcn/ui components themselves (default style, neutral base). The boundary today: brand/identity primitives ship here; app-level primitives (Button, Card, forms, …) live in services. Promote a component into this package deliberately (it adds maintenance + a test), not by reflex.
+- **Components ship here only if they style themselves through CSS custom properties** (like `Logo*`/`Icon`). No Tailwind-classed components, no `clsx`/`tailwind-merge` dependency, and no requirement that consumers scan `dist/`, until a second consuming surface needs one. Decided in [`docs/decisions/0001-component-promotion-boundary.md`](docs/decisions/0001-component-promotion-boundary.md) (#5): `SegmentedControl`, `ListPage` and `Panel` are **deferred** to that trigger; `ReadingPage` (bound to the app shell) and the resource descriptor types (VibeXP API vocabulary, not design) are **rejected**. Don't reopen these without new evidence. Record package-level decisions in `docs/decisions/` (see its README).
 
 ## Release flow
 
