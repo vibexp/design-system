@@ -15,11 +15,13 @@ consumers on upgrade** — see *Changed*.
   a series changed identity when the theme did. The new set keeps one hue
   order in both themes — neutral, blue, teal, amber, violet — and only
   lightness moves. Every colour clears 3:1 against `--card` in both themes
-  (light 7.43 / 4.85 / 3.75 / 3.30 / 5.18, dark 8.96 / 6.24 / 7.59 / 9.41 /
-  6.35). **Every chart that reads these tokens changes colour.** Blue
-  (`--chart-2`) and violet (`--chart-5`) sit at one lightness and merge for
-  red-green colour blindness; a chart that plots both needs a second cue
-  (direct labels, dash or marker shape).
+  (light 7.43 / 4.46 / 3.75 / 3.30 / 7.01, dark 8.96 / 4.19 / 6.07 / 9.41 /
+  6.35). Lightness is staggered so the hues that red-green colour blindness
+  pulls together (blue/violet, neutral/teal) still differ in tone: the
+  closest pair under simulated deuteranopia or protanopia is ΔE 8.8 in light
+  and 8.0 in dark (OKLab ×100), against 13.7 and 15.8 for normal vision.
+  **Every chart that reads these tokens changes colour.** Colour should still
+  not be a chart's only cue.
 - **Prose: inline code is regular weight and blockquotes are upright**
   (`tokens/prose.css`). Inline `code` goes from weight 600 to 400 — bold
   monospace shouts in dense text, and the `--muted` background already marks

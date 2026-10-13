@@ -41,10 +41,10 @@ const STATUS = [
 /* [token, hue, light, dark] */
 const CHART = [
   ["chart-1", "neutral", "oklch(0.45 0.02 255)", "oklch(0.78 0.02 255)"],
-  ["chart-2", "blue", "oklch(0.55 0.14 250)", "oklch(0.68 0.14 250)"],
-  ["chart-3", "teal", "oklch(0.6 0.1 185)", "oklch(0.72 0.11 185)"],
+  ["chart-2", "blue", "oklch(0.57 0.14 250)", "oklch(0.58 0.14 250)"],
+  ["chart-3", "teal", "oklch(0.6 0.1 185)", "oklch(0.66 0.11 185)"],
   ["chart-4", "amber", "oklch(0.65 0.13 75)", "oklch(0.8 0.14 75)"],
-  ["chart-5", "violet", "oklch(0.55 0.15 300)", "oklch(0.7 0.15 300)"],
+  ["chart-5", "violet", "oklch(0.48 0.15 300)", "oklch(0.7 0.15 300)"],
 ];
 
 function TokenRow({ name, tw, val, dark, desc, swatchVar }) {
@@ -273,9 +273,10 @@ function ColorsSection() {
         ))}
       </div>
       <Callout>
-        Assign series in order, <code>--chart-1</code> first. Blue (<code>--chart-2</code>) and violet
-        (<code>--chart-5</code>) sit at the same lightness and merge for red-green colour blindness:
-        a chart that plots both needs a second cue — direct labels, a dash pattern or a marker shape.
+        Assign series in order, <code>--chart-1</code> first. Lightness is staggered so the hues
+        that red-green colour blindness pulls together (blue and violet, neutral and teal) still
+        differ in tone. Colour should still not be the only cue: in a dense chart add direct
+        labels, a dash pattern or a marker shape.
       </Callout>
 
       <SubHead>Sidebar surface</SubHead>
