@@ -3,6 +3,31 @@
 All notable changes to `@vibexp/design-system` are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.3.1] — 2026-10-13
+
+### Changed
+- **Prose inherits its container's font** (`tokens/prose.css`). The `.prose`
+  block no longer declares `font-family: var(--font-inter)`. That variable
+  only exists when `fonts.css` is also loaded, so a consumer importing
+  `prose.css` alone already got the inherited font, by way of an invalid
+  declaration; and one loading both got long-form text in Inter whatever the
+  rest of the surface was set in. Prose now takes the family of whatever it
+  sits in. **This changes rendering for a consumer that loads `fonts.css` —
+  directly or through the barrel — and relied on `.prose` being Inter without
+  setting the font anywhere else.** To restore it, set the font on the prose
+  container or on `body`:
+
+  ```css
+  body { font-family: var(--font-inter); }  /* or: .prose { … } */
+  ```
+
+  A surface that already sets Inter on `body` or the article container, and
+  one that never loaded `fonts.css`, see no change.
+
+### Docs
+- Typography page: the surface → font callout no longer says `.prose` selects
+  Inter.
+
 ## [0.3.0] — 2026-10-13
 
 Reading, markdown and chart tokens (#10). **Two changes are visible to existing
