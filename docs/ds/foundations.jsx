@@ -360,9 +360,10 @@ function TypographySection() {
       </div>
 
       <Callout>
-        Surface → font is deterministic: <code>.v2-root</code> ⇒ system sans · website /{" "}
-        <code>.prose</code> ⇒ Inter · v1 ⇒ Poppins. Bodies bind to the design tokens, so unstyled
-        text already matches the monochrome system. Don't bring Poppins into v2 components.
+        Surface → font is deterministic: <code>.v2-root</code> ⇒ system sans · website, blog and
+        docs ⇒ Inter · v1 ⇒ Poppins. <code>.prose</code> sets no family of its own — it inherits
+        the surface's. Bodies bind to the design tokens, so unstyled text already matches the
+        monochrome system. Don't bring Poppins into v2 components.
       </Callout>
 
       <SubHead>Semantic type roles</SubHead>

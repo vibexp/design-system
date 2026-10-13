@@ -7,6 +7,10 @@
  * Mirrors the product's @tailwindcss/typography overrides. In the monorepo
  * these are scoped under `.v2-root .prose`; this distributable targets
  * `.prose` directly so any service can use it. Scope it yourself if needed.
+ *
+ * Prose inherits the font of its container — it sets no font-family of its
+ * own. A site that wants Inter sets it on the container or on body
+ * (`font-family: var(--font-inter)`, from tokens/fonts.css).
  * ============================================================================= */
 
 .prose {
@@ -24,7 +28,6 @@
   --tw-prose-code: var(--foreground);
   --tw-prose-th-borders: var(--border);
   --tw-prose-td-borders: var(--border);
-  font-family: var(--font-inter);
   font-size: 0.875rem;
   line-height: 1.75;
   max-width: none;
