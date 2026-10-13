@@ -31,6 +31,14 @@
   --container-rail-collapsed: var(--rail-collapsed);
   --container-rail-expanded: var(--rail-expanded);
   --container-details-column: var(--details-column);
+  --container-measure-prose: var(--measure-prose);
+  --container-measure-article: var(--measure-article);
+
+  /* header height → h-header / min-h-header, and the offsets that clear it:
+     top-header, pt-header, scroll-mt-header. Tailwind v4 reads named lengths
+     for all of those from the --spacing-* namespace. In arithmetic, use the
+     raw variable: h-[calc(100dvh-var(--header-height))]. */
+  --spacing-header: var(--header-height);
 
   /* colour roles → Tailwind colour utilities */
   --color-background: var(--background);
@@ -101,6 +109,8 @@
   --text-5xl: var(--text-5xl);   --text-5xl--line-height: var(--text-5xl-lh);
   --text-6xl: var(--text-6xl);   --text-6xl--line-height: var(--text-6xl-lh);
   --text-7xl: var(--text-7xl);   --text-7xl--line-height: var(--text-7xl-lh);
+  /* long-form body → text-reading (17px, leading 1.7) */
+  --text-reading: var(--text-reading); --text-reading--line-height: var(--text-reading-lh);
 
   /* font weights → font-normal / font-medium / font-semibold / font-bold */
   --font-weight-normal: var(--font-weight-normal);

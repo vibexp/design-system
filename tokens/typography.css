@@ -44,6 +44,12 @@
   --text-6xl:  3.75rem;   --text-6xl-lh:  1.05;      /* 60       · hero display ceiling */
   --text-7xl:  4.5rem;    --text-7xl-lh:  1;         /* 72 */
 
+  /* ── long-form reading size ─ off the ramp on purpose ───────────────────
+     Body type for a page that is read rather than scanned (an article, a
+     document): a step above --text-base with open leading. Pair it with
+     --measure-prose (tokens.css) for the line length. Not a UI size. */
+  --text-reading: 1.0625rem; --text-reading-lh: 1.7; /* 17 / 28.9 · long-form body */
+
   /* ── fluid display sizes ─ rem-based clamp(min, fluid, max) ─────────────
      One token replaces a responsive utility chain. Ranges (≈390→1280px vp):
        display 36→60 · title 36→48 · section 30→48 · stat 30→36 · lead 18→20 */

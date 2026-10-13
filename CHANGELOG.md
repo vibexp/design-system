@@ -3,6 +3,78 @@
 All notable changes to `@vibexp/design-system` are documented here.
 This project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.3.0] — 2026-10-13
+
+Reading, markdown and chart tokens (#10). **Two changes are visible to existing
+consumers on upgrade** — see *Changed*.
+
+### Changed
+- **Chart palette replaced** (`--chart-1`…`--chart-5`, light and dark). The
+  old set led with a saturated red-orange in light (it read as "destructive"
+  on a single-series chart) and used a different hue order in each theme, so
+  a series changed identity when the theme did. The new set keeps one hue
+  order in both themes — neutral, blue, teal, amber, violet — and only
+  lightness moves. Every colour clears 3:1 against `--card` in both themes
+  (light 7.43 / 4.85 / 3.75 / 3.30 / 5.18, dark 8.96 / 6.24 / 7.59 / 9.41 /
+  6.35). **Every chart that reads these tokens changes colour.** Blue
+  (`--chart-2`) and violet (`--chart-5`) sit at one lightness and merge for
+  red-green colour blindness; a chart that plots both needs a second cue
+  (direct labels, dash or marker shape).
+- **Prose: inline code is regular weight and blockquotes are upright**
+  (`tokens/prose.css`). Inline `code` goes from weight 600 to 400 — bold
+  monospace shouts in dense text, and the `--muted` background already marks
+  it as code. `blockquote` goes from italic to `font-style: normal` with
+  `quotes: none`, and `blockquote p::before/::after` are emptied, so a quoted
+  instruction never gains characters that are not in its source. **Every
+  `.prose` surface (website, blog, docs, app) changes appearance.** To keep
+  the old look, override those three properties after the import.
+
+### Added
+- **`tokens/markdown.css`** — rendered-markdown blocks, exported as
+  `@vibexp/design-system/markdown.css` and added to the barrel after
+  `prose.css`: the fenced code-block frame (`.code-block`, `.code-block-bar`,
+  `.copy-button`), token-driven syntax colours for Prism-style `.token` spans,
+  and the GFM task-list checkbox (`.task-list-item`, `.task-checkbox`). All
+  rules are scoped under `.prose` and match nothing without that markup; the
+  `.token` colours apply only inside `.code-block`, so a surface running its
+  own Prism theme on a bare `.prose pre` is not restyled. The file header
+  documents the markup contract.
+- **Reading tokens.** `--measure-prose` (40rem) and `--measure-article`
+  (64rem) in the sizing group, generating `max-w-measure-prose` /
+  `max-w-measure-article` (and `w-*`, `min-w-*`) through `--container-*`; and
+  a long-form body size `--text-reading` (1.0625rem) with `--text-reading-lh`
+  (1.7) in `tokens/typography.css`, generating `text-reading`.
+- **`--header-height`** (3.5rem), mapped as `--spacing-header`, which
+  generates `h-header`, `min-h-header`, `top-header`, `pt-header` and
+  `scroll-mt-header`. In arithmetic use the raw variable:
+  `h-[calc(100dvh-var(--header-height))]`.
+- All of the above mirrored in `tokens.json` (`size.measure-prose`,
+  `size.measure-article`, `size.header-height`, `text.reading`, and the ten
+  `chart-*` colours).
+
+  **Apps that keep their own entry-file `@theme inline` block must add the new
+  mapping lines there** for the utilities to exist (Tailwind v4 only reads
+  `@theme` from the entry file):
+
+  ```css
+  --container-measure-prose: var(--measure-prose);
+  --container-measure-article: var(--measure-article);
+  --spacing-header: var(--header-height);
+  --text-reading: var(--text-reading);
+  --text-reading--line-height: var(--text-reading-lh);
+  ```
+
+### Docs
+- **Elevation rule stated:** shadows are for floating layers only (popovers,
+  menus, tooltips, dialogs). A surface at rest is separated by a border or by
+  spacing — one device per level. Cards are documented without `shadow-sm`
+  and empty states without a dashed container (components, patterns, spacing
+  and guidelines pages).
+- Chart swatches, the reading size and measures, `--header-height` and a live
+  rendered-markdown specimen added to the reference site.
+- Decision 0001: the recorded `SegmentedControl` API now lists the option
+  fields `title` and `disabled`. The verdict is unchanged.
+
 ## [0.2.1] — 2026-09-13
 
 ### Fixed

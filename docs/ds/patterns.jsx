@@ -109,7 +109,7 @@ function PatternsSection() {
 
       {/* EMPTY STATE */}
       <SubHead>Empty state</SubHead>
-      <SubNote>Dashed container, muted circular icon, title, optional description and actions. <code>EmptyState.tsx</code>.</SubNote>
+      <SubNote>Muted circular icon, title, optional description and actions, centred in the space the content would have taken. <strong>No dashed box</strong>: the empty state already sits inside a surface (the page, a card), and spacing sets it apart — a second container would add an edge that means nothing. <code>EmptyState.tsx</code>.</SubNote>
       <Example center
         code={`<EmptyState
   icon={Inbox}
@@ -167,7 +167,8 @@ function GuidelinesSection() {
           <ul>
             <li>Build new (v2) UI on the system-ui sans stack.</li>
             <li>Stay on the 4px spacing grid and the four-step radius scale.</li>
-            <li>Keep elevation to the three shadow steps; depth means layering.</li>
+            <li>Keep shadows for floating layers — popovers, menus, dialogs — on the three shadow steps.</li>
+            <li>Separate surfaces at rest with a border or with spacing: one device per level.</li>
           </ul>
         </div>
         <div className="guide guide--dont">
@@ -175,7 +176,8 @@ function GuidelinesSection() {
           <ul>
             <li>Bring Poppins into shadcn (v2) components — it's legacy v1 only.</li>
             <li>Invent off-grid paddings or arbitrary corner radii per component.</li>
-            <li>Stack heavy custom shadows for decoration.</li>
+            <li>Put a shadow on a card, panel or empty state, or stack custom shadows for decoration.</li>
+            <li>Box an empty state in a dashed container.</li>
           </ul>
         </div>
       </div>

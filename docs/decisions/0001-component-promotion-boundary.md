@@ -69,9 +69,11 @@ only dependency-free pieces are candidates. Under Q1's "no", even those wait.
 
 Recorded so the follow-up, if Q1 reopens, starts from the current contract.
 
-- **`SegmentedControl`** — `options: readonly { value: string; label: string }[]`,
+- **`SegmentedControl`** — `options: readonly { value: string; label: string; title?: string; disabled?: boolean }[]`,
   `value: string`, `onChange(value: string)`, `size?: "sm" | "md"`, `aria-label?`;
-  exports `SegmentedOption`.
+  exports `SegmentedOption`. (`title` and `disabled` were added in the app after
+  this decision; recorded 2026-10-13 from the app's `ui-improvement` branch so the
+  contract stays current. The verdict is unchanged.)
 - **`ListPage`** (compound) — `ListPage.Header { title, description?, actions? }`,
   `.Container { className? }`, `.Filters`, `.Body { status: "loading" | "error" | "empty" | "ready", errorTitle?, errorMessage?, loadingRows? = 6, empty? }`,
   `.Footer { count?: { visible, total, noun, nounPlural? }, pagination?: { page, totalPages, onPageChange }, note?, hideCount? }`.
