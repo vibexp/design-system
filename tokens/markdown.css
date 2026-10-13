@@ -1,0 +1,161 @@
+/* =============================================================================
+ * @vibexp/design-system — rendered-markdown blocks
+ *
+ * The parts of a rendered markdown body that tokens/prose.css does not cover,
+ * because a renderer has to emit markup for them:
+ *
+ *   - the fenced code-block frame: a bar with the language and a copy button
+ *     above the code, on a surface that follows the theme;
+ *   - syntax colours for Prism-style `.token` spans inside that frame;
+ *   - the GFM task-list checkbox.
+ *
+ * A companion to prose.css: every rule is scoped under `.prose` and this file
+ * must load AFTER prose.css (the barrel does that). It reads tokens.css (and
+ * typography.css for the bar's type size), so import those too when taking it
+ * standalone via `@vibexp/design-system/markdown.css`.
+ *
+ * ── MARKUP CONTRACT ─────────────────────────────────────────────────────
+ *   <div class="code-block">
+ *     <div class="code-block-bar">
+ *       <span>ts</span>
+ *       <button type="button" class="copy-button" aria-label="Copy code">…</button>
+ *     </div>
+ *     <pre><code>…<span class="token keyword">const</span>…</code></pre>
+ *   </div>
+ *
+ *   <li class="task-list-item">
+ *     <span class="task-checkbox" role="img" data-checked="true"
+ *           aria-label="Completed"></span>
+ *     Ship it
+ *   </li>
+ *
+ * The checkbox is a read-only picture of the box, not an input: give it
+ * `role="img"` and a label, since its state is otherwise only visual.
+ *
+ * ── WHAT THIS FILE DOES NOT TOUCH ───────────────────────────────────────
+ * Nothing here matches unless the markup above is present. In particular the
+ * `.token` colours apply only inside `.code-block`, so a surface that runs its
+ * own Prism theme on a bare `.prose pre` (website, blog) keeps that theme.
+ * ============================================================================= */
+
+/* ── fenced code block ────────────────────────────────────────────────────
+   The surface and every syntax colour are tokens, so the block follows the
+   theme — a muted surface in light, a raised one in dark — instead of a
+   highlighter's fixed dark theme. */
+.prose .code-block {
+  margin: 1.5rem 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background-color: var(--muted);
+  color: var(--foreground);
+}
+
+.prose .code-block-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.25rem 0.375rem 0 1rem;
+  color: var(--muted-foreground);
+  font-family: var(--font-mono, ui-monospace, monospace);
+  font-size: var(--text-xs);
+  line-height: 1.5rem;
+}
+
+/* The frame owns the surface, so the <pre> inside it gives up its own.
+   Deliberately NOT wrapped in :where(): at (0,2,1) this outranks a consumer's
+   scoped `.x .prose :where(pre)` (0,2,0) even when that rule is declared
+   later. At equal specificity the later rule would put the bare-<pre> margin,
+   radius and background back inside the frame. */
+.prose .code-block pre {
+  margin: 0;
+  padding: 0.5rem 1rem 1rem;
+  border-radius: 0;
+  background-color: transparent;
+}
+
+.prose .copy-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.3125rem;
+  border-radius: var(--radius-sm);
+  color: var(--muted-foreground);
+}
+
+.prose .copy-button:hover {
+  background-color: color-mix(in oklab, var(--foreground) 10%, transparent);
+  color: var(--foreground);
+}
+
+.prose .copy-button:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 1px;
+}
+
+/* ── syntax colours ───────────────────────────────────────────────────────
+   Deliberately few: structure is carried by weight and by the muted tone, and
+   only literals take a colour — the status roles, which are tuned for text in
+   both themes. Scoped under .code-block (see the header). */
+.prose .code-block .token:is(.comment, .prolog, .doctype, .cdata) {
+  color: var(--muted-foreground);
+  font-style: italic;
+}
+
+.prose .code-block .token:is(.punctuation, .operator) {
+  color: var(--muted-foreground);
+}
+
+.prose .code-block .token:is(.keyword, .tag, .selector, .atrule, .important) {
+  font-weight: 600;
+}
+
+.prose .code-block .token:is(.string, .char, .attr-value, .regex, .inserted) {
+  color: var(--success);
+}
+
+.prose .code-block .token:is(.number, .boolean, .constant, .symbol, .builtin, .variable) {
+  color: var(--info);
+}
+
+.prose .code-block .token.deleted {
+  color: var(--destructive);
+}
+
+/* ── GFM task list ────────────────────────────────────────────────────────
+   No bullet — the box is the marker, drawn in the gutter where the bullet was
+   — and a checked box that reads as checked in both themes. The box is sized
+   in em so it tracks the body size (--text-reading included). */
+.prose li.task-list-item {
+  position: relative;
+  list-style: none;
+}
+
+.prose .task-checkbox {
+  position: absolute;
+  top: 0.35em;
+  left: -1.4rem;
+  box-sizing: border-box;
+  width: 1em;
+  height: 1em;
+  border: 1.5px solid var(--muted-foreground);
+  border-radius: 0.25em;
+}
+
+.prose .task-checkbox[data-checked='true'] {
+  border-color: var(--primary);
+  background-color: var(--primary);
+}
+
+.prose .task-checkbox[data-checked='true']::after {
+  content: '';
+  position: absolute;
+  top: 8%;
+  left: 31%;
+  width: 30%;
+  height: 58%;
+  border: solid var(--primary-foreground);
+  border-width: 0 0.14em 0.14em 0;
+  transform: rotate(45deg);
+}

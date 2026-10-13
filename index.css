@@ -6,7 +6,8 @@
  *     @import '@vibexp/design-system';
  *
  * Order matters: fonts + tokens define the variables, theme maps them to
- * Tailwind utilities, prose consumes them, a11y adds the accessibility
+ * Tailwind utilities, prose consumes them, markdown adds the rendered-markdown
+ * blocks on top of prose (it must follow it), a11y adds the accessibility
  * baseline, scrollbar styles every overflow container off the tokens.
  *
  * NOTE (Tailwind v4): if utilities like `bg-primary` don't generate, move
@@ -19,5 +20,6 @@
 @import './tokens/typography.css';
 @import './tokens/theme.css';
 @import './tokens/prose.css';
+@import './tokens/markdown.css';
 @import './tokens/a11y.css';
 @import './tokens/scrollbar.css';

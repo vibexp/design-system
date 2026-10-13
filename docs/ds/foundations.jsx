@@ -38,12 +38,13 @@ const STATUS = [
   ["info", "Running", "neutral informational state"],
 ];
 
+/* [token, hue, light, dark] */
 const CHART = [
-  ["chart-1", "oklch(0.646 0.222 41.1)", "oklch(0.488 0.243 264)"],
-  ["chart-2", "oklch(0.6 0.118 184.7)", "oklch(0.696 0.17 162.5)"],
-  ["chart-3", "oklch(0.398 0.07 227.4)", "oklch(0.769 0.188 70.1)"],
-  ["chart-4", "oklch(0.828 0.189 84.4)", "oklch(0.627 0.265 303.9)"],
-  ["chart-5", "oklch(0.769 0.188 70.1)", "oklch(0.645 0.246 16.4)"],
+  ["chart-1", "neutral", "oklch(0.45 0.02 255)", "oklch(0.78 0.02 255)"],
+  ["chart-2", "blue", "oklch(0.57 0.14 250)", "oklch(0.58 0.14 250)"],
+  ["chart-3", "teal", "oklch(0.6 0.1 185)", "oklch(0.66 0.11 185)"],
+  ["chart-4", "amber", "oklch(0.65 0.13 75)", "oklch(0.8 0.14 75)"],
+  ["chart-5", "violet", "oklch(0.48 0.15 300)", "oklch(0.7 0.15 300)"],
 ];
 
 function TokenRow({ name, tw, val, dark, desc, swatchVar }) {
@@ -260,14 +261,23 @@ function ColorsSection() {
 
       <SubHead>Chart palette</SubHead>
       <SubNote>
-        Five categorical hues (<code>--chart-1</code>…<code>--chart-5</code>) for data viz. Light and
-        dark use different value sets tuned for contrast on each surface.
+        Five categorical colours (<code>--chart-1</code>…<code>--chart-5</code>) for data viz, in{" "}
+        <strong>one hue order in both themes</strong> — neutral, blue, teal, amber, violet — so a
+        series keeps its identity when the theme flips; only lightness moves. The set leads with a
+        neutral, so a single-series chart reads as data rather than as a status. Every colour clears
+        3:1 against <code>--card</code> in both themes.
       </SubNote>
       <div className="swatch-grid">
         {CHART.map((c) => (
-          <SwatchCard key={c[0]} name={c[0]} label={c[1]} />
+          <SwatchCard key={c[0]} name={c[0]} label={c[1] + " · " + c[2] + " · dark " + c[3]} />
         ))}
       </div>
+      <Callout>
+        Assign series in order, <code>--chart-1</code> first. Lightness is staggered so the hues
+        that red-green colour blindness pulls together (blue and violet, neutral and teal) still
+        differ in tone. Colour should still not be the only cue: in a dense chart add direct
+        labels, a dash pattern or a marker shape.
+      </Callout>
 
       <SubHead>Sidebar surface</SubHead>
       <SubNote>A dedicated token group so app navigation can diverge from the main canvas.</SubNote>
@@ -387,8 +397,10 @@ function TypographySection() {
       <SubNote>
         The <code>.prose</code> system for blog posts and docs — exact values from the{" "}
         <code>@tailwindcss/typography</code> overrides. Body is <code>14px / 1.75</code>; headings
-        step down from <code>24 → 14px</code>. Links use <code>--primary</code>, inline code sits on{" "}
-        <code>--muted</code>.
+        step down from <code>24 → 14px</code>. Links use <code>--primary</code>. Inline code sits on{" "}
+        <code>--muted</code> at regular weight — the background marks it as code, and bold monospace
+        shouts in dense text. A blockquote is upright and gains no quote marks: a quoted instruction
+        must not show characters that are not in its source.
       </SubNote>
       <div className="tokens" style={{ padding: "4px 22px", marginBottom: 18 }}>
         {PROSE_SCALE.map((t, i) => (
@@ -422,6 +434,95 @@ function TypographySection() {
           <blockquote>Start narrow, then widen the agent's scope as you trust its output.</blockquote>
         </div>
       </Example>
+
+      <SubHead>Reading size & measure</SubHead>
+      <SubNote>
+        A page that is read rather than scanned — an article, a document — sets its body at{" "}
+        <code>--text-reading</code> (17px, leading 1.7) and caps the line at{" "}
+        <code>--measure-prose</code> (40rem, about 80 characters). The 14px <code>.prose</code>{" "}
+        default stays for every other surface (cards, feeds, previews). Wide blocks — code, tables,
+        diagrams — may run past the prose column up to <code>--measure-article</code> (64rem).
+      </SubNote>
+      <PropTable
+        cols={["Token", "Value", "Utility", "Role"]}
+        rows={[
+          [<code>--text-reading</code>, "1.0625rem · 17px, lh 1.7", <Chip text="text-reading" />, "Long-form body type"],
+          [<code>--measure-prose</code>, "40rem · 640px", <Chip text="max-w-measure-prose" />, "Longest line of running prose"],
+          [<code>--measure-article</code>, "64rem · 1024px", <Chip text="max-w-measure-article" />, "Reading article; ceiling for a wide block"],
+        ]}
+      />
+      <Example block code={`<article className="max-w-measure-article">
+  <div className="prose text-reading [&>*]:max-w-measure-prose">…</div>
+</article>`}>
+        <div className="ds-prose" style={{ maxWidth: "var(--measure-prose)", fontSize: "var(--text-reading)", lineHeight: "var(--text-reading-lh)" }}>
+          <p style={{ margin: 0 }}>
+            Agents run autonomously inside your workspace. Give one a clear instruction, connect a
+            trigger, and it will execute on every matching event. A line this long is about as far as
+            the eye follows back to the start of the next one without losing its place.
+          </p>
+        </div>
+      </Example>
+
+      <SubHead>Rendered-markdown blocks</SubHead>
+      <SubNote>
+        <code>tokens/markdown.css</code> (<code>@vibexp/design-system/markdown.css</code>, part of the
+        barrel) styles the parts of a markdown body a renderer has to emit markup for: the fenced
+        code-block frame with its language bar and copy button, token-driven syntax colours, and the
+        GFM task-list checkbox. Everything is scoped under <code>.prose</code>, and the syntax colours
+        only apply inside <code>.code-block</code> — a surface that runs its own Prism theme on a bare{" "}
+        <code>pre</code> is not restyled. This specimen loads the real stylesheet.
+      </SubNote>
+      <Example block code={`<div class="code-block">
+  <div class="code-block-bar">
+    <span>ts</span>
+    <button type="button" class="copy-button" aria-label="Copy code">…</button>
+  </div>
+  <pre><code><span class="token keyword">const</span> …</code></pre>
+</div>
+
+<li class="task-list-item">
+  <span class="task-checkbox" role="img" data-checked="true" aria-label="Completed"></span>
+  Connect a repository
+</li>`}>
+        <div className="ds-prose prose" style={{ maxWidth: 640, width: "100%" }}>
+          <div className="code-block">
+            <div className="code-block-bar">
+              <span>ts</span>
+              <button type="button" className="copy-button" aria-label="Copy code" style={{ border: 0, background: "none", cursor: "pointer" }}>
+                <Icon name="copy" size={14} />
+              </button>
+            </div>
+            <pre style={{ overflowX: "auto", fontSize: "0.875rem", lineHeight: 1.5 }}>
+              <code>
+                <span className="token comment">{"// retry a failed run, at most three times"}</span>{"\n"}
+                <span className="token keyword">const</span>{" attempts "}<span className="token operator">=</span>{" "}<span className="token number">3</span><span className="token punctuation">;</span>{"\n"}
+                <span className="token keyword">const</span>{" label "}<span className="token operator">=</span>{" "}<span className="token string">"by severity"</span><span className="token punctuation">;</span>
+              </code>
+            </pre>
+          </div>
+          <ul>
+            <li className="task-list-item">
+              <span className="task-checkbox" role="img" data-checked="true" aria-label="Completed" />
+              Connect a repository
+            </li>
+            <li className="task-list-item">
+              <span className="task-checkbox" role="img" data-checked="false" aria-label="Not completed" />
+              Add a trigger or schedule
+            </li>
+          </ul>
+        </div>
+      </Example>
+      <PropTable
+        cols={["Tokens", "Colour", "Why"]}
+        rows={[
+          ["comment, prolog, doctype, cdata", <code>--muted-foreground</code>, "Italic; recedes"],
+          ["punctuation, operator", <code>--muted-foreground</code>, "Structure stays quiet"],
+          ["keyword, tag, selector, atrule", "inherits · weight 600", "Carried by weight, not hue"],
+          ["string, char, attr-value, regex, inserted", <code>--success</code>, "Literals take a status role tuned for text"],
+          ["number, boolean, constant, builtin, variable", <code>--info</code>, "Same"],
+          ["deleted", <code>--destructive</code>, "Diff removal"],
+        ]}
+      />
     </Section>
   );
 }
@@ -459,9 +560,9 @@ const RADII = [
   ["radius-xl", "calc(var(--radius) + 4px)", "≈ 14px", "rounded-xl", "Large containers"],
 ];
 const SHADOWS = [
-  ["shadow-sm", "Cards at rest"],
+  ["shadow-sm", "Control thumbs — the active tab or segment"],
   ["shadow-md", "Dropdowns, popovers, tooltips"],
-  ["shadow-lg", "Switch thumb, modals"],
+  ["shadow-lg", "Dialogs, sheets; the switch thumb"],
 ];
 const SPACE = [
   ["1", "0.25rem", "4px"], ["2", "0.5rem", "8px"], ["3", "0.75rem", "12px"],
@@ -474,6 +575,9 @@ const SIZES = [
   ["rail-collapsed", "3.75rem · 60px", "w-rail-collapsed", "Nav rail, icons only"],
   ["rail-expanded", "16.5rem · 264px", "w-rail-expanded", "Nav rail, labelled"],
   ["details-column", "20rem · 320px", "w-details-column", "Reading-page details column"],
+  ["measure-prose", "40rem · 640px", "max-w-measure-prose", "Longest line of running prose"],
+  ["measure-article", "64rem · 1024px", "max-w-measure-article", "Reading article; ceiling for a wide block"],
+  ["header-height", "3.5rem · 56px", "h-header · top-header", "App header height, and the offset below it"],
 ];
 
 function SpacingSection() {
@@ -482,7 +586,7 @@ function SpacingSection() {
       id="spacing"
       eyebrow="Foundations"
       title="Spacing, radius & elevation"
-      lead="A single --radius token (0.625rem) seeds the whole corner system; everything else derives from it. Spacing follows Tailwind's 4px base unit, elevation is a restrained three-step shadow ramp, and recurring layout widths are named sizing roles."
+      lead="A single --radius token (0.625rem) seeds the whole corner system; everything else derives from it. Spacing follows Tailwind's 4px base unit, elevation is a restrained three-step shadow ramp reserved for floating layers, and recurring layout sizes are named sizing roles."
     >
       <SubHead>Radius</SubHead>
       <SubNote>Set <code>--radius: 0.625rem</code> once; the sm/md/lg/xl steps compute off it.</SubNote>
@@ -499,7 +603,12 @@ function SpacingSection() {
       </div>
 
       <SubHead>Elevation</SubHead>
-      <SubNote>Shadows stay subtle — depth signals layering, not decoration.</SubNote>
+      <SubNote>
+        <strong>Shadows are for floating layers only</strong> — popovers, menus, tooltips, dialogs:
+        things that sit above the page and can cover it. A surface at rest (a card, a panel, an
+        empty state) casts none; it is separated from its surroundings by a border <em>or</em> by
+        spacing — one device per level, never both plus a shadow.
+      </SubNote>
       <div className="spec-grid">
         {SHADOWS.map((s) => (
           <div className="spec-card" key={s[0]}>
@@ -511,6 +620,10 @@ function SpacingSection() {
           </div>
         ))}
       </div>
+      <Callout>
+        The one resting use of a shadow is a control's moving part — the active tab or segment, the
+        switch thumb — where it marks which piece is raised inside the control, not a surface.
+      </Callout>
 
       <SubHead>Spacing unit</SubHead>
       <SubNote>4px base. Component padding lands on this grid — buttons <code>px-4 py-2</code>, cards <code>p-6</code>.</SubNote>
@@ -525,14 +638,15 @@ function SpacingSection() {
       </div>
 
       <SubHead>Sizing roles</SubHead>
-      <SubNote>Named widths for recurring layout roles — use these instead of <code>w-[150px]</code>-style literals. Sizes don't flip in dark, so they live in <code>:root</code> only.</SubNote>
+      <SubNote>Named sizes for recurring layout roles — use these instead of <code>w-[150px]</code>- or <code>top-14</code>-style literals. Sizes don't flip in dark, so they live in <code>:root</code> only.</SubNote>
       <PropTable
         cols={["Token", "Value", "Utility", "Role"]}
         rows={SIZES.map((s) => [<code>--{s[0]}</code>, s[1], <Chip text={s[2]} />, s[3]])}
       />
       <Callout>
         <code>--details-column</code> is the reading-page details column specifically, not a general 320px width — popovers that happen to use <code>w-80</code> should keep it.
-        Tailwind v4 only reads <code>@theme</code> from your entry CSS: if your app keeps its own <code>@theme inline</code> block, add the six <code>--container-*</code> lines there or the utilities won't exist.
+        <code>--header-height</code> is a length on both axes, so it maps under <code>--spacing-header</code> rather than <code>--container-*</code>: that one line gives <code>h-header</code>, <code>top-header</code>, <code>pt-header</code> and <code>scroll-mt-header</code>. In arithmetic use the raw variable, e.g. <code>h-[calc(100dvh-var(--header-height))]</code>.
+        Tailwind v4 only reads <code>@theme</code> from your entry CSS: if your app keeps its own <code>@theme inline</code> block, copy the <code>--container-*</code>, <code>--spacing-header</code> and <code>--text-reading</code> lines from <code>tokens/theme.css</code> there or the utilities won't exist.
       </Callout>
     </Section>
   );

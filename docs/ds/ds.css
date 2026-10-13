@@ -27,11 +27,11 @@
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.45 0 0); /* a11y: 7.46:1 on white (was 0.708 = 2.58:1, failed 3:1) */
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  --chart-1: oklch(0.45 0.02 255);
+  --chart-2: oklch(0.57 0.14 250);
+  --chart-3: oklch(0.6 0.1 185);
+  --chart-4: oklch(0.65 0.13 75);
+  --chart-5: oklch(0.48 0.15 300);
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.205 0 0);
@@ -85,11 +85,11 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.6 0 0); /* a11y: 5:1 on bg / 4.54:1 on card (was 0.556) */
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
+  --chart-1: oklch(0.78 0.02 255);
+  --chart-2: oklch(0.58 0.14 250);
+  --chart-3: oklch(0.66 0.11 185);
+  --chart-4: oklch(0.8 0.14 75);
+  --chart-5: oklch(0.7 0.15 300);
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.488 0.243 264.376);
@@ -386,6 +386,7 @@ body {
   --text-5xl: 3rem;     --text-5xl-lh: 1.08;
   --text-6xl: 3.75rem;  --text-6xl-lh: 1.05;
   --text-7xl: 4.5rem;   --text-7xl-lh: 1;
+  --text-reading: 1.0625rem; --text-reading-lh: 1.7;
   --text-fluid-display: clamp(2.25rem, 1.6rem + 2.7vw, 3.75rem);
   --text-fluid-title:   clamp(2.25rem, 1.92rem + 1.35vw, 3rem);
   --text-fluid-section: clamp(1.875rem, 1.38rem + 2.02vw, 3rem);
@@ -440,8 +441,8 @@ body {
 .ds-prose h1:first-child, .ds-prose h2:first-child { margin-top: 0; }
 .ds-prose p { margin: 1rem 0; }
 .ds-prose a { color: var(--primary); text-decoration: underline; text-underline-offset: 2px; }
-.ds-prose code:not(pre code) { background: var(--muted); color: var(--foreground); padding: 0.125rem 0.25rem; border-radius: 0.25rem; font-size: 0.875em; font-weight: 600; font-family: var(--font-mono); }
-.ds-prose blockquote { border-left: 4px solid var(--border); padding-left: 1rem; font-style: italic; margin: 1.5rem 0; color: var(--muted-foreground); }
+.ds-prose code:not(pre code) { background: var(--muted); color: var(--foreground); padding: 0.125rem 0.25rem; border-radius: 0.25rem; font-size: 0.875em; font-weight: 400; font-family: var(--font-mono); }
+.ds-prose blockquote { border-left: 4px solid var(--border); padding-left: 1rem; font-style: normal; quotes: none; margin: 1.5rem 0; color: var(--muted-foreground); }
 .ds-prose ul { margin: 1rem 0; padding-left: 1.5rem; }
 .ds-prose li { margin: 0.5rem 0; }
 
@@ -567,7 +568,8 @@ body {
 .sh-switch:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
 
 /* card — card.tsx */
-.sh-card { border-radius: var(--radius-lg); border: 1px solid var(--border); background: var(--card); color: var(--card-foreground); box-shadow: var(--shadow-sm); }
+/* no shadow: a card is a surface at rest, and its 1px border is its only edge */
+.sh-card { border-radius: var(--radius-lg); border: 1px solid var(--border); background: var(--card); color: var(--card-foreground); }
 .sh-card__header { display: flex; flex-direction: column; gap: 0.375rem; padding: 1.5rem; }
 .sh-card__title { font-size: 1.5rem; font-weight: 600; line-height: 1; letter-spacing: -0.015em; }
 .sh-card__desc { font-size: 0.875rem; color: var(--muted-foreground); line-height: 1.4; }
@@ -635,7 +637,8 @@ body {
 /* empty state — EmptyState.tsx */
 .sh-empty {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  border-radius: var(--radius-lg); border: 1px dashed var(--border); padding: 3rem; text-align: center;
+  /* no box: the empty state sits in its parent surface, set apart by spacing */
+  padding: 3rem; text-align: center;
 }
 .sh-empty__icon { display: flex; height: 3rem; width: 3rem; align-items: center; justify-content: center; border-radius: 9999px; background: var(--muted); color: var(--muted-foreground); margin-bottom: 1rem; }
 .sh-empty__icon svg { width: 24px; height: 24px; }

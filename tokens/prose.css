@@ -47,14 +47,18 @@
   padding: 0.125rem 0.25rem;
   border-radius: 0.25rem;
   font-size: 0.875em;
-  font-weight: 600;
+  /* Regular weight: in a dense paragraph, bold monospace makes every third
+     word shout. The background alone marks it as code. */
+  font-weight: 400;
   font-family: var(--font-mono);
 }
 .prose :where(code)::before,
 .prose :where(code)::after { content: ''; }
 
 .prose :where(pre) {
-  /* background/color owned by your syntax-highlight theme (e.g. Prism) */
+  /* A bare <pre>: background/color owned by your syntax-highlight theme (e.g.
+     Prism). For a token-driven fenced block that follows the theme, wrap it in
+     `.code-block` — see tokens/markdown.css. */
   padding: 1rem;
   border-radius: 0.5rem;
   font-size: 0.875rem;
@@ -64,13 +68,19 @@
 }
 .prose :where(pre code) { background: transparent; padding: 0; border-radius: 0; font-size: inherit; font-weight: inherit; color: inherit; }
 
+/* A quote is the author's text, shown as written: upright, and without the
+   typographic quote marks @tailwindcss/typography adds around it — a quoted
+   instruction must not gain characters that are not in its source. */
 .prose :where(blockquote) {
   border-left: 4px solid var(--tw-prose-quote-borders);
   padding-left: 1rem;
-  font-style: italic;
+  font-style: normal;
+  quotes: none;
   margin: 1.5rem 0;
   color: var(--tw-prose-quotes);
 }
+.prose :where(blockquote p)::before,
+.prose :where(blockquote p)::after { content: none; }
 
 .prose :where(table) { width: 100%; margin: 1.5rem 0; font-size: 0.875rem; border-collapse: collapse; }
 .prose :where(th) { background-color: var(--muted); font-weight: 600; padding: 0.75rem; text-align: left; border-bottom: 1px solid var(--tw-prose-th-borders); color: var(--tw-prose-headings); }

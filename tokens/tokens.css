@@ -82,12 +82,20 @@
   --input: oklch(0.922 0 0);
   --ring: oklch(0.45 0 0);
 
-  /* data-viz categorical palette */
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  /* data-viz categorical palette. One hue order in both themes — neutral,
+     blue, teal, amber, violet — so a series keeps its identity when the theme
+     flips; only lightness (and amber's chroma) moves. It leads with a neutral
+     so a single-series chart reads as data, not as a status. Every mark clears
+     3:1 against --card (WCAG 1.4.11); ratios on the light card below.
+     Lightness is staggered so the hues that red-green colour blindness pulls
+     together (blue/violet, neutral/teal) still differ in tone — keep that
+     stagger when retuning. Colour should still not be the only cue: in a
+     dense chart add direct labels, a dash pattern or a marker shape. */
+  --chart-1: oklch(0.45 0.02 255); /* neutral · 7.43:1 */
+  --chart-2: oklch(0.57 0.14 250); /* blue    · 4.46:1 */
+  --chart-3: oklch(0.6 0.1 185);   /* teal    · 3.75:1 */
+  --chart-4: oklch(0.65 0.13 75);  /* amber   · 3.30:1 */
+  --chart-5: oklch(0.48 0.15 300); /* violet  · 7.01:1 */
 
   /* avatar / identity — a small CATEGORICAL palette (like --chart-*), the one
      place the brand tolerates hue: distinguishing people, not decoration.
@@ -134,15 +142,20 @@
   --space-8: 2rem;    /* 32px */
   --space-12: 3rem;   /* 48px */
 
-  /* sizing — named widths for recurring layout roles. Sizes, not colours:
-     :root only, no .dark counterpart. Mirrored in tokens/theme.css under
-     Tailwind's --container-* namespace (w-*, min-w-*, max-w-*, basis-*). */
+  /* sizing — named sizes for recurring layout roles. Sizes, not colours:
+     :root only, no .dark counterpart. The widths are mirrored in
+     tokens/theme.css under Tailwind's --container-* namespace (w-*, min-w-*,
+     max-w-*, basis-*); --header-height is a length on both axes (an offset as
+     often as a height), so it maps under --spacing-* instead. */
   --control-width-sm:   9.375rem; /* 150px · compact filter select trigger */
   --control-search-min: 15rem;    /* 240px · search field floor            */
   --control-search-max: 30rem;    /* 480px · search field ceiling          */
   --rail-collapsed:     3.75rem;  /* 60px  · nav rail, icons only          */
   --rail-expanded:      16.5rem;  /* 264px · nav rail, labelled            */
   --details-column:     20rem;    /* 320px · reading-page details column   */
+  --measure-prose:      40rem;    /* 640px · longest line of running prose (~80ch at --text-reading) */
+  --measure-article:    64rem;    /* 1024px · reading article, and the most a wide block (code, table, diagram) may take */
+  --header-height:      3.5rem;   /* 56px  · app header: its height, and the offset of everything that sticks below it */
 }
 
 .dark {
@@ -178,11 +191,12 @@
   /* dark focus ring: 0.556 passed (4.18:1) but sat marginal on raised cards
      (3.78:1); 0.6 gives 5:1 on bg and 4.54:1 on card. */
   --ring: oklch(0.6 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
+  /* same hue order as light, lifted for the dark card (4.19:1 – 9.41:1) */
+  --chart-1: oklch(0.78 0.02 255);
+  --chart-2: oklch(0.58 0.14 250);
+  --chart-3: oklch(0.66 0.11 185);
+  --chart-4: oklch(0.8 0.14 75);
+  --chart-5: oklch(0.7 0.15 300);
   /* avatars lift on dark surfaces so initials stay legible on the dark card */
   --avatar-1: oklch(0.68 0.14 255);
   --avatar-2: oklch(0.68 0.14 150);

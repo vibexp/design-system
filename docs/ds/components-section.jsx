@@ -191,7 +191,7 @@ function ComponentsSection() {
 
       {/* CARD */}
       <SubHead>Card</SubHead>
-      <SubNote>The core surface: <code>rounded-lg border bg-card shadow-sm</code> with Header / Content / Footer slots.</SubNote>
+      <SubNote>The core surface: <code>rounded-lg border bg-card</code> with Header / Content / Footer slots. <strong>No shadow at rest</strong> — a card is static and its 1px border is its only edge; shadows are for layers that float (menus, popovers, dialogs). If your generated shadcn <code>Card</code> still carries <code>shadow-sm</code>, remove it.</SubNote>
       <Example center
         code={`<Card>
   <CardHeader>

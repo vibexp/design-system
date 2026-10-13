@@ -16,6 +16,7 @@ change everywhere — so the bar is consistency, not speed.
 | `tokens/tokens.css` | A colour value, the radius seed, or a `:root` / `.dark` token changes. **This is the source of truth.** |
 | `tokens/theme.css` | You add/remove a token that needs a Tailwind utility (`@theme inline`), or change the radius scale. |
 | `tokens/prose.css` | Long-form (blog/docs) typography changes. |
+| `tokens/markdown.css` | Rendered-markdown blocks change: the fenced code-block frame, syntax colours, the task-list checkbox. Loads after `prose.css`. |
 | `tokens/fonts.css` | A typeface or font stack changes. |
 | `tokens.json` | **Always mirror** any colour/radius/font change you made in `tokens.css` — non-CSS consumers (Figma, codegen) read this. |
 | `brand/` | The logo or wordmark changes. |
